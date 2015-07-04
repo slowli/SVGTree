@@ -1,2 +1,4 @@
 .settings
 .project
+*.min.css
+*.min.js
