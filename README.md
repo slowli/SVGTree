@@ -58,8 +58,8 @@ Recognized options:
 
     Determines the orientation of the tree. One of the following:
 
-      o `'h'` (children below their ancestors)
-      o `'v'` (children to the right of their ancestors)
+      - `'h'` (children below their ancestors)
+      - `'v'` (children to the right of their ancestors)
 
     Default value: `'v'`.
 
@@ -83,8 +83,8 @@ Recognized options:
     Either an array of two values that determine the width and the height
     of the <svg> element in pixels, or one of the two strings:
 	
-	  o `'fit'` to resize the <svg> element to fit the entire tree after each rendering operation
-	  o `'keep'` to keep the size of the <svg> element set externally (e.g., in a stylesheet).
+      - `'fit'` to resize the <svg> element to fit the entire tree after each rendering operation
+      - `'keep'` to keep the size of the <svg> element set externally (e.g., in a stylesheet).
 
     Default value: `'keep'`.
 
@@ -92,12 +92,12 @@ Recognized options:
 
     Determines how a user can interact with the tree. An array of zero or more strings:
 
-      o `'collapse'` - user can collapse and expand nodes
-      o `'rearrange'` - user can rearrange siblings
-      o `'edit'` - user can edit node labels
-      o `'add'` - user can add new nodes into the tree by pressing insert key
-      o `'remove'` - user can remove nodes from the tree by pressing delete key
-      o `'drag'` - user can use drag'n'drop to move or copy portions of the tree
+      - `'collapse'` - user can collapse and expand nodes
+      - `'rearrange'` - user can rearrange siblings
+      - `'edit'` - user can edit node labels
+      - `'add'` - user can add new nodes into the tree by pressing insert key
+      - `'remove'` - user can remove nodes from the tree by pressing delete key
+      - `'drag'` - user can use drag'n'drop to move or copy portions of the tree
         (note that the nodes can be dragged between two trees on the same HTML page)
 
     A special value `false` is equivalent to an empty array (no interactions allowed).
@@ -118,3 +118,4 @@ Examples
 ---------------------------
 	
 See **demo.html**.
+
