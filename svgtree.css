@@ -9,6 +9,13 @@
 	box-sizing: border-box;
 }
 
+.svgtree *::-moz-selection {
+	background-color: transparent;
+}
+.svgtree *::selection {
+	background-color: transparent;
+}
+
 /* Node markers. */
 .svgtree .marker {
 	stroke: gray;
@@ -21,15 +28,15 @@
 
 /* .hover class is used to emulate hover when the marker 
    is obscured by a target for drag'n'drop. */
-.svgtree *:hover>.marker,
-.svgtree *.hover>.marker, 
+.svgtree-interactive *:hover>.marker,
+.svgtree-interactive *.hover>.marker, 
 .svgtree .selected .marker {
 	stroke: orange;
 	fill: orange;
 }
 
-.svgtree .collapsed:hover .marker,
-.svgtree .collapsed.hover .marker,
+.svgtree-interactive .collapsed:hover .marker,
+.svgtree-interactive .collapsed.hover .marker,
 .svgtree .collapsed.selected .marker {
 	fill: white;
 	stroke: orange;

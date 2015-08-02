@@ -96,6 +96,8 @@ if (!('remove' in Element.prototype)) {
 /**
  * Returns the client position of the upper left corner of an HTML element,
  * not counting its borders.
+ * 
+ * @return {Object}
  */
 function innerClientPos(element) {
 	var rect = element.getBoundingClientRect(),
@@ -1631,6 +1633,8 @@ SVGTree.prototype = {
 		
 		container.classList.add('svgtree-wrap');
 		container.classList.add('svgtree-' + this.options.orientation);
+		container.classList.toggle('svgtree-interactive', this.options._canSelectNodes);
+		
 		this.svg.classList.add('svgtree');
 		
 		if (this.options._canCollapseNodes 
