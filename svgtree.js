@@ -632,7 +632,7 @@ SVGTreeNode.prototype.removeSVG = function(complete) {
 		
 		if (complete) {
 			// XXX Is it really needed?
-			node.svgEdge = node.svgNode = node.svgMarker = node.svgLabel = null;
+			node.svgEdge = node.svgNode = node.svgMarker = node.svgLabel = node.svgLabelBg = null;
 		}
 	}
 };
@@ -933,6 +933,8 @@ SVGTreeNode.prototype.createTarget = function(options) {
 /**
  * Returns the client coordinates of the center of the marker for this node 
  * relative to the offset parent (SVG tree container).
+ * 
+ * @returns {Object}
  */
 SVGTreeNode.prototype.offsetPos = function() {
 	return {
