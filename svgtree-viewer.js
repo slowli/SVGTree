@@ -68,7 +68,7 @@ SVGTreeViewer_defaults = {
 };
 
 function setRadioButton(form, field, value) {
-	form.querySelector('#' + field + '-' + value).checked = true;
+	form.querySelector('input[type="radio"][name="' + field + '"][value="' + value + '"]').checked = true;
 }
 
 function getRadioButton(form, field) {
@@ -87,6 +87,8 @@ function localize(text, strings) {
 	}
 	return text;
 }
+
+var nWidgets = 0;
 
 function SVGTreeViewer(tree, container, params) {
 
@@ -249,12 +251,19 @@ function SVGTreeViewer(tree, container, params) {
 			newickText.setAttribute('readonly', true);
 			params.undo = false;
 		}
+		if (!tree.options._canSelectNodes) {
+			params.footer = false;
+		}
 		
 		title.textContent = container.getAttribute('title');
 		container.setAttribute('title', '');
 		
 		if (!tree.options._canAddNodes) addBtn.remove();
 		if (!tree.options._canRemoveNodes) removeBtn.remove();
+		if (!params.footer) {
+			nodePanel.parentNode.remove();
+			container.classList.add('no-footer');
+		}
 		
 		if (params.undo) {
 			tree.getState = function() { 
@@ -293,10 +302,13 @@ function SVGTreeViewer(tree, container, params) {
 			settingsForm.remove();
 		}
 		
-		if (!params.footer) {
-			nodePanel.parentNode.remove();
-			container.classList.add('no-footer');
+		var labels = container.querySelectorAll('label[for]');
+		for (var i = 0; i < labels.length; i++) {
+			var id = labels[i].htmlFor;
+			container.querySelector('#' + id).id += '-' + nWidgets;
+			labels[i].htmlFor += '-' + nWidgets;
 		}
+		nWidgets++;
 		
 		onselect(null);
 	}
