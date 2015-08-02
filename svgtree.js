@@ -1236,6 +1236,8 @@ var SVGTree_defaults = {
 	'dragAsText': false,
 	'targetSize': 25,
 	
+	'labelBackgrounds': true,
+	
 	'summary': function(node) {
 		var nDescendants = node.queue().length - 1;
 		return '(' + nDescendants + ')';
@@ -1557,21 +1559,23 @@ SVGTree.prototype = {
 				}
 			}
 			
-			// TODO Adding backgrounds for labels is the most costly rendering operation
-			// so it is commented off by now
-			/*var background = node.svgLabelBg,
-				box = node.svgLabel.getBBox();
-			if (!background) {
-				// Create background for the label
-				background = node.svgLabelBg = svgTag('rect');
-				background.classList.add('label-bg');
-				node.svgLabel.parentNode.insertBefore(background, node.svgLabel);
+			if (options.labelBackgrounds) {
+				var background = node.svgLabelBg,
+					box = node.svgLabel.getBBox();
+				if (!background) {
+					// Create background for the label
+					background = node.svgLabelBg = svgTag('rect');
+					background.classList.add('label-bg');
+					node.svgLabel.parentNode.insertBefore(background, node.svgLabel);
+				}
+				
+				background.setAttribute('x', box.x - 2);
+				background.setAttribute('y', box.y - 2);
+				background.setAttribute('width', box.width + 4);
+				background.setAttribute('height', box.height + 4);
+				
+				background.setAttribute('display', (box.width == 0) ? 'none' : 'inline');
 			}
-			
-			background.setAttribute('x', box.x - 2);
-			background.setAttribute('y', box.y - 2);
-			background.setAttribute('width', box.width + 4);
-			background.setAttribute('height', box.height + 4);*/
 		}
 	},
 	

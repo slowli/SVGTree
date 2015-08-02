@@ -114,6 +114,39 @@ Recognized options:
 	where the text input is expected. The dropped text is the Newick representation 
 	of the dragged subtree.
 
+    Default value: `false`.
+
+    Note: **dragAsText** is effectively always true in IE 11.
+
+  * **depthDistance**
+
+    Distance in pixels between neighboring levels of the tree. If the tree, for example, 
+    has a horizontal layout, all nodes on the same level have the same X coordinate. 
+    Hence, **depthDistance** is defined as the horizontal distance 
+    between the neighboring levels.
+
+    Default value: `50`.
+
+  * **leafDistance**
+
+    Minimal distance in pixels between nodes on the same level of the tree.
+
+    Default value: `40`.
+
+  * **padding**
+
+    Minmal distance in pixels between container edges and the elements of the tree.
+
+    Default value: `30`.
+
+  * **labelBackgrounds**
+
+    If true, a semi-transparent rectangle is drawn behind each node label to improve readability.
+    Determining rectangle positions is the most costly operation during rendering, so
+    it makes sense to switch off label backgrounds for big trees.
+
+    Default value: `true`.
+
 Examples
 ---------------------------
 	

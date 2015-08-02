@@ -462,7 +462,8 @@
 				notation = randomTree(nodes, maxChildren).newick();
 			var tree = new SVGTree(notation, container, {
 				'interaction': ['collapse'],
-				'size': 'fit'
+				'size': 'fit',
+				'labelBackgrounds': false
 			});
 			
 			$('#test-max-gen').click(function() {

@@ -50,6 +50,10 @@
 	font-family: Cambria,"Droid Serif",serif;
 }
 
+.svgtree .label-bg {
+	fill: rgba(255,255,255,0.7);
+}
+
 .svgtree .label .c {
 	text-anchor: middle;
 }
