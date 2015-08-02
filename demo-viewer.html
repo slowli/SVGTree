@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<link rel="stylesheet" type="text/css" href="svgtree.css" />
+	<link rel="stylesheet" type="text/css" href="svgtree-viewer.css" />
+	<link rel="stylesheet" type="text/css" href="demo.css" />
+	<!-- jQuery is not required by SVGTree. It's here to simplify the code of examples. -->
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="svgtree.js"></script>
+	<script src="svgtree-viewer.js"></script>
+	
+	<script>
+	$(function(){ 
+		function prepareScript(script) {
+			var lines = script.split(/\n/), nTabs = 0;
+			lines.splice(0, 1); // The first line is whitespace only
+			
+			while (lines[0][nTabs] == '\t') nTabs++;
+			
+			for (var i = 0; i < lines.length; i++) {
+				lines[i] = lines[i].substring(nTabs);
+				lines[i] = lines[i].replace(/\t/g, '    ');
+			}
+			return lines.join('\n');
+		}
+	
+		$('pre.code').each(function() {
+			var el = $(this),
+				script = $('#' + el.data('script')).text();
+			$(this).text(prepareScript(script));
+		});
+	});
+	</script>
+	
+	<title>SVGTreeViewer Demo</title>
+</head>
+<body>
+	<h1>SVGTreeViewer Demo</h1>
+	
+	<p>The examples on this page showcase the basic functionality of the SVGTreeViewer widget.</p>
+
+	<div class="row">
+		<div id="test-viewer" title="Test tree"></div>
+		
+		<h4>Code</h4>
+		<pre class="code" data-script="test-basic-src"></pre>
+		
+		<script id="test-basic-src">
+		var container = document.getElementById('test-viewer');
+		SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+			// You can specify the same settings as for SVGTree
+			'interaction': ['collapse', 'add', 'remove', 'edit', 'drag']
+		});
+		</script>
+	</div>
+	
+	<div class="row">
+		<div id="test-buttons" title="Testing buttons"></div>
+		
+		<p>You can disable undo, settings and / or Newick notation buttons by specifying appropriate boolean options (<code>undo</code>, <code>settings</code>, <code>newick</code>).</p>
+		
+		<h4>Code</h4>
+		<pre class="code" data-script="test-buttons-src"></pre>
+		
+		<script id="test-buttons-src">
+		var container = document.getElementById('test-buttons');
+		SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+			'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
+			'newick': false,
+			'undo': false
+		});
+		</script>
+	</div>
+	
+	<div class="row">
+		<div id="test-footer" title="Testing footer"></div>
+		
+		<p>Alternatively, the footer containing node-specific actions can be removed altogether using the <code>footer</code> option.</p>
+		
+		<h4>Code</h4>
+		<pre class="code" data-script="test-footer-src"></pre>
+		
+		<script id="test-footer-src">
+		var container = document.getElementById('test-footer');
+		SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+			'interaction': ['collapse'],
+			'footer': false
+		});
+		</script>
+	</div>
+</body>
+</html>

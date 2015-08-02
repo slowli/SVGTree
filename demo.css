@@ -72,6 +72,9 @@ figcaption {
 figure.scroll {
 	border: 4px solid #ddd;
 }
+.svgtree-viewer .svgtree-wrap {
+	border: none;
+}
 
 svg {
 	width: 300px;
