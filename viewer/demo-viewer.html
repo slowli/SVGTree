@@ -85,7 +85,8 @@
 	<section>
 		<hgroup><h1>SVGTreeViewer Demo</h1></hgroup>
 		
-		<p>The examples on this page showcase the basic functionality of the SVGTreeViewer widget.</p>
+		<p>The examples on this page showcase the basic functionality of the SVGTreeViewer widget.
+		The code fragments below use jQuery. It is not required by SVGTree, but used to simplify the code of examples.</p>
 	</section>
 	
 	<hr/>
@@ -93,7 +94,7 @@
 	<section>
 		<hgroup><h2>Basic Functionality</h2></hgroup>
 	
-		<div id="test-viewer" title="Test tree"></div>
+		<div id="test-viewer" title="Sample Tree"></div>
 		
 		<h4>Code</h4>
 		<pre class="code" data-script="test-basic-src"></pre>
@@ -112,7 +113,7 @@
 	<section>
 		<hgroup><h2>Customizable Actions</h2></hgroup>
 	
-		<div id="test-buttons" title="Testing buttons"></div>
+		<div id="test-buttons" title="No Undo & Newick Buttons"></div>
 		
 		<p>You can disable undo, settings and / or Newick notation buttons by specifying appropriate boolean options (<code>undo</code>, <code>settings</code>, <code>newick</code>).</p>
 		
@@ -134,7 +135,7 @@
 	<section>
 		<hgroup><h2>Footer Removal</h2></hgroup>
 	
-		<div id="test-footer" title="Testing footer"></div>
+		<div id="test-footer" title="No Footer Panel"></div>
 		
 		<p>Alternatively, the footer containing node-specific actions can be removed altogether using the <code>footer</code> option.
 		The footer is removed automatically if tree nodes cannot be selected.</p>
@@ -158,26 +159,29 @@
 	
 		<p>You can specify the size of a widget using width and / or height styles (e.g., using <code>&lt;div ... style="width: 500px; height: 500px;"&gt;</code>).</p>
 	
-		<div id="test-size" title="Testing width and height" style="width: 500px; height: 500px;"></div>
+		<div id="test-custom-size" title="Custom Size" style="width: 500px; height: 500px;"></div>
 	
 		<p>Note that for the optimal layout, the width of the widget should be no less than <code>400px</code>, and its height no less than <code>300px</code>.</p>
 	
-		<div id="test-width" title="Testing width" style="width: 400px; height: 300px;"></div>
+		<div id="test-small-size" title="Small Size" style="width: 400px; height: 300px;"></div>
+		
 		
 		
 		<h4>Code</h4>
 		<pre class="code" data-script="test-size-src"></pre>
 		
 		<script id="test-size-src">
-		var container = document.getElementById('test-width');
-		SVGTreeViewer('((A,B),(C,D)F)E;', container, {
-			'interaction': false
-		});
-		
-		container = document.getElementById('test-size');
+		// <div id="test-custom-size" title="Custom Size" style="width: 500px; height: 500px;"></div>
+		container = document.getElementById('test-custom-size');
 		SVGTreeViewer('((A,(1,,(3,(5,6,7)4)2)B),(C,D)F)E;', container, {
 			'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
 			'orientation': 'h'
+		});
+		
+		// <div id="test-small-size" title="Small Size" style="width: 400px; height: 300px;"></div>
+		var container = document.getElementById('test-small-size');
+		SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+			'interaction': false
 		});
 		</script>
 	</section>
@@ -187,7 +191,7 @@
 	<section>
 		<hgroup><h2>Locate Button</h2></hgroup>
 	
-		<div id="test-max" title="Random tree" style="width: 600px; height: 600px;"></div>
+		<div id="test-max" title="Random Tree" style="width: 600px; height: 600px;"></div>
 		
 		<p>For large trees, there is a useful Locate button which centers the displayed area of the tree on the selected node.</p>
 	
@@ -195,23 +199,21 @@
 		<pre class="code" data-script="test-max-src"></pre>
 		
 		<script id="test-max-src">
-		(function() {
-			// randomTree is a function that generates random trees
-			// (you can inspect it by viewing the source code of this file).
+		// randomTree is a function that generates random trees
+		// (you can inspect it by viewing the source code of this file).
+	
+		var container = document.querySelector('#test-max'),
+			nodes = 300, // Number of nodes in the tree
+			maxChildren = 4, // Maximum number of children of each node
+			notation = randomTree(nodes, maxChildren).newick();
+		var tree = new SVGTreeViewer(notation, container, {
+			'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
+			'labelBackgrounds': false
+		});
 		
-			var container = document.querySelector('#test-max'),
-				nodes = 300, // Number of nodes in the tree
-				maxChildren = 4, // Maximum number of children of each node
-				notation = randomTree(nodes, maxChildren).newick();
-			var tree = new SVGTreeViewer(notation, container, {
-				'interaction': ['collapse'],
-				'labelBackgrounds': false
-			});
-			
-			$('#test-max-gen').click(function() {
-				tree.setContent(randomTree(nodes, maxChildren).newick());
-			});
-		})();
+		$('#test-max-gen').click(function() {
+			tree.setContent(randomTree(nodes, maxChildren).newick());
+		});
 		</script>
 	</section>
 	

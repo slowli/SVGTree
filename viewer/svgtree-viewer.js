@@ -371,7 +371,6 @@ SVGTreeViewer.localization = {
 	'add_hint': 'Add a new child of the selected node',
 	'remove_hint': 'Remove the selected node and all its descendants',
 	'loc_hint': 'Center the plot on the selected node',
-	'selected': 'Selected node:',
 	'settings': 'Display settings',
 	'orientation': 'Orientation',
 	'orientation_h': 'horizontal',

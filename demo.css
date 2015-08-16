@@ -23,13 +23,17 @@ h2 {
 	color: #aac;
 }
 
+h4 {
+	margin: 1em 0 0.25em;
+}
+
 section h2 {
 	margin: -1em 0 2em;
 }
 
 section {
-	margin: 3em auto;
-	padding: 0 1em;
+	margin: 3em auto 4em;
+	padding: 0 2em;
 	max-width: 900px;
 }
 
@@ -42,6 +46,14 @@ hr {
 	border: none;
 	border-bottom: 2px solid #ccf;
 	margin: 3em 1em;
+}
+hr:before {
+	content: '';
+	display: block;
+	height: 10px;
+	position: relative;
+	top: 5px;
+	background: linear-gradient(to right, white 0%, transparent 50%, white 100%);
 }
 
 footer.main {
@@ -84,15 +96,17 @@ figure.row {
 code,pre.code {
 	font-family: Consolas,"Droid Sans Mono","Courier New",monospace;
 	font-size: 12px;
+	background: #f8f8ff;
+	color: #444;
 }
+
 code {
-	background: #f0f0ff;
 	padding: 0 2px;
 }
 pre.code {
-	border: 1px solid #ccf;
-	padding: 4px;
-	margin: 0 4px;
+	border-left: 3px solid #ccf;
+	padding: 4px 6px;
+	margin: 0;
 	overflow-x: auto;
 }
 

@@ -105,13 +105,11 @@
 		</div>
 		
 		<script id="test-init-src">
-		(function() {
-			// In HTML:
-			// <div id="test-init"></div>
+		// In HTML:
+		// <div id="test-init"></div>
 
-			var svg = document.querySelector('#test-init');
-			new SVGTree('(A,B)C;', svg);
-		})();
+		var svg = document.querySelector('#test-init');
+		new SVGTree('(A,B)C;', svg);
 		</script>
 	</section>
 	
@@ -131,15 +129,13 @@
 		</div>
 		
 		<script id="test-newick-src">
-		(function() {
-			var container = document.querySelector('#test-newick'),
-				options = {
-					'leafDistance': 50 // widen the tree a little
-				};
+		var container = document.querySelector('#test-newick'),
+			options = {
+				'leafDistance': 50 // widen the tree a little
+			};
 
-			new SVGTree('(s\l\a\sh\\\\,node,(node 2,comma \\,)\\(parentheses\\))root;', 
-				container, options);
-		})();
+		new SVGTree('(s\l\a\sh\\\\,node,(node 2,comma \\,)\\(parentheses\\))R;', 
+			container, options);
 		</script>
 	</section>
 	
@@ -161,13 +157,11 @@
 		</div>
 		
 		<script id="test-edges-nodes-src">
-		(function() {
-			var container = document.querySelector('#test-edges-nodes');
-			new SVGTree('(A,),(B,C),(D,E))R;', container, {
-				'nodes': 'square',
-				'edges': 'straight'
-			});
-		})();
+		var container = document.querySelector('#test-edges-nodes');
+		new SVGTree('(A,),(B,C),(D,E))R;', container, {
+			'nodes': 'square',
+			'edges': 'straight'
+		});
 		</script>
 	</section>
 	
@@ -188,12 +182,10 @@
 		</div>
 		
 		<script id="test-hmode-src">
-		(function() {
-			var container = document.querySelector('#test-hmode');
-			new SVGTree('(A,),(B,C),(D,E))R;', container, {
-				'orientation': 'h'
-			});
-		})();
+		var container = document.querySelector('#test-hmode');
+		new SVGTree('(A,),(B,C),(D,E))R;', container, {
+			'orientation': 'h'
+		});
 		</script>
 	</section>
 	
@@ -215,12 +207,10 @@
 		</div>
 		
 		<script id="test-resize-src">
-		(function() {
-			var container = document.querySelector('#test-resize');
-			new SVGTree('(A,),(B,C),(D,E))R;', container, {
-				'size': 'fit'
-			});
-		})();
+		var container = document.querySelector('#test-resize');
+		new SVGTree('(A,),(B,C),(D,E))R;', container, {
+			'size': 'fit'
+		});
 		</script>
 	</section>
 	
@@ -243,12 +233,10 @@
 		</div>
 		
 		<script id="test-collapse-src">
-		(function() {
-			var container = document.querySelector('#test-collapse');
-			new SVGTree('((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;', container, {
-				'interaction': ['collapse']
-			});
-		})();
+		var container = document.querySelector('#test-collapse');
+		new SVGTree('((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;', container, {
+			'interaction': ['collapse']
+		});
 		</script>
 	</section>
 	
@@ -271,19 +259,17 @@
 		</div>
 		
 		<script id="test-edit-src">
-		(function() {
-			var container = document.querySelector('#test-edit'),
-				notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
-			var tree = new SVGTree(notation, container, {
-				'interaction': ['edit']
-			});
-			
-			$('#test-edit-restore').click(function() {
-				// We can use SVGTree.setContent function to quickly change
-				// the entire tree
-				tree.setContent(notation);
-			});
-		})();
+		var container = document.querySelector('#test-edit'),
+			notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+		var tree = new SVGTree(notation, container, {
+			'interaction': ['edit']
+		});
+		
+		$('#test-edit-restore').click(function() {
+			// We can use SVGTree.setContent function to quickly change
+			// the entire tree
+			tree.setContent(notation);
+		});
 		</script>
 	</section>
 	
@@ -307,17 +293,15 @@
 		</div>
 		
 		<script id="test-rearrange-src">
-		(function() {
-			var container = document.querySelector('#test-rearrange'),
-				notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
-			var tree = new SVGTree(notation, container, {
-				'interaction': ['rearrange']
-			});
-			
-			$('#test-rearrange-restore').click(function() {
-				tree.setContent(notation);
-			});
-		})();
+		var container = document.querySelector('#test-rearrange'),
+			notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+		var tree = new SVGTree(notation, container, {
+			'interaction': ['rearrange']
+		});
+		
+		$('#test-rearrange-restore').click(function() {
+			tree.setContent(notation);
+		});
 		</script>
 	</section>
 	
@@ -342,17 +326,15 @@
 		</div>
 		
 		<script id="test-add-src">
-		(function() {
-			var container = document.querySelector('#test-add'),
-				notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
-			var tree = new SVGTree(notation, container, {
-				'interaction': ['add', 'remove', 'collapse']
-			});
-			
-			$('#test-add-restore').click(function() {
-				tree.setContent(notation);
-			});
-		})();
+		var container = document.querySelector('#test-add'),
+			notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+		var tree = new SVGTree(notation, container, {
+			'interaction': ['add', 'remove', 'collapse']
+		});
+		
+		$('#test-add-restore').click(function() {
+			tree.setContent(notation);
+		});
 		</script>
 	</section>
 	
@@ -385,17 +367,15 @@
 		</div>
 		
 		<script id="test-drag-src">
-		(function() {
-			var container = document.querySelector('#test-drag'),
-				notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
-			var tree = new SVGTree(notation, container, {
-				'interaction': ['collapse', 'drag', 'remove']
-			});
-			
-			$('#test-drag-restore').click(function() {
-				tree.setContent(notation);
-			});
-		})();
+		var container = document.querySelector('#test-drag'),
+			notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+		var tree = new SVGTree(notation, container, {
+			'interaction': ['collapse', 'drag', 'remove']
+		});
+		
+		$('#test-drag-restore').click(function() {
+			tree.setContent(notation);
+		});
 		</script>
 	</section>
 	
@@ -417,25 +397,23 @@
 		<pre class="code" data-script="test-drag-2trees-src"></pre>
 		
 		<script id="test-drag-2trees-src">
-		(function() {
-			var container1 = document.querySelector('#test-drag-2trees-1'),
-				notation1 = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
-			var tree1 = new SVGTree(notation1, container1, {
-				'interaction': ['collapse', 'drag', 'remove']
-			});
-			
-			var container2 = document.querySelector('#test-drag-2trees-2'),
-				notation2 = '((1,2),(3,4),(5,6));';
-			var tree2 = new SVGTree(notation2, container2, {
-				'orientation': 'h',
-				'interaction': ['collapse', 'drag', 'remove']
-			});
-			
-			$('#test-drag-2trees-restore').click(function() {
-				tree1.setContent(notation1);
-				tree2.setContent(notation2);
-			});
-		})();
+		var container1 = document.querySelector('#test-drag-2trees-1'),
+			notation1 = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+		var tree1 = new SVGTree(notation1, container1, {
+			'interaction': ['collapse', 'drag', 'remove']
+		});
+		
+		var container2 = document.querySelector('#test-drag-2trees-2'),
+			notation2 = '((1,2),(3,4),(5,6));';
+		var tree2 = new SVGTree(notation2, container2, {
+			'orientation': 'h',
+			'interaction': ['collapse', 'drag', 'remove']
+		});
+		
+		$('#test-drag-2trees-restore').click(function() {
+			tree1.setContent(notation1);
+			tree2.setContent(notation2);
+		});
 		</script>
 	</section>
 	
@@ -468,18 +446,16 @@
 		</div>
 		
 		<script id="test-text-drag-src">
-		(function() {
-			var container = document.querySelector('#test-text-drag'),
-				notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
-			var tree = new SVGTree(notation, container, {
-				'interaction': ['drag', 'remove'],
-				'dragAsText': true
-			});
-			
-			$('#test-text-drag-restore').click(function() {
-				tree.setContent(notation);
-			});
-		})();
+		var container = document.querySelector('#test-text-drag'),
+			notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+		var tree = new SVGTree(notation, container, {
+			'interaction': ['drag', 'remove'],
+			'dragAsText': true
+		});
+		
+		$('#test-text-drag-restore').click(function() {
+			tree.setContent(notation);
+		});
 		</script>
 	</section>
 	
@@ -502,24 +478,22 @@
 		<pre class="code" data-script="test-max-src"></pre>
 		
 		<script id="test-max-src">
-		(function() {
-			// randomTree is a function that generates random trees
-			// (you can inspect it by viewing the source code of this file).
+		// randomTree is a function that generates random trees
+		// (you can inspect it by viewing the source code of this file).
+	
+		var container = document.querySelector('#test-max'),
+			nodes = 300, // Number of nodes in the tree
+			maxChildren = 4, // Maximum number of children of each node
+			notation = randomTree(nodes, maxChildren).newick();
+		var tree = new SVGTree(notation, container, {
+			'interaction': ['collapse'],
+			'size': 'fit',
+			'labelBackgrounds': false
+		});
 		
-			var container = document.querySelector('#test-max'),
-				nodes = 300, // Number of nodes in the tree
-				maxChildren = 4, // Maximum number of children of each node
-				notation = randomTree(nodes, maxChildren).newick();
-			var tree = new SVGTree(notation, container, {
-				'interaction': ['collapse'],
-				'size': 'fit',
-				'labelBackgrounds': false
-			});
-			
-			$('#test-max-gen').click(function() {
-				tree.setContent(randomTree(nodes, maxChildren).newick());
-			});
-		})();
+		$('#test-max-gen').click(function() {
+			tree.setContent(randomTree(nodes, maxChildren).newick());
+		});
 		</script>
 	</section>
 	
