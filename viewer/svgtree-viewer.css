@@ -12,6 +12,7 @@
 
 .svgtree-viewer {
 	width: 600px;
+	height: 360px;
 	margin: 0 auto;
 	border-left: 1px solid #444;
 	border-right: 1px solid #444;
@@ -101,6 +102,7 @@
 .svgtree-main {
 	position: relative;
 	text-align: center;
+	height: calc(100% - 40px);
 }
 
 .svgtree-scroll {
@@ -108,7 +110,12 @@
 	width: 100%;
 	overflow: scroll;
 	height: 320px;
+	height: calc(100% - 40px);
 }
+.no-footer .svgtree-scroll {
+	height: 100%;
+}
+
 .svgtree-scroll > * {
 	vertical-align: top;
 }
@@ -170,7 +177,7 @@
 .svgtree-settings {
 	background: rgba(0,0,0,0.7);
 	color: white;
-	padding: 2em 4em;
+	padding: 2em;
 }
 
 .svgtree-settings h4 {
@@ -188,7 +195,7 @@
 	display: inline-block;
 	width: 100px;
 	text-align: right;
-	margin: 0 16px;
+	margin-right: 16px;
 	font-weight: bold;
 }
 
