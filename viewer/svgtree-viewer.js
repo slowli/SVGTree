@@ -107,17 +107,12 @@ function SVGTreeViewer(tree, container, params) {
 		newickBtn = container.querySelector('.svgtree-op-nwck'),
 		settingsBtn = container.querySelector('.svgtree-op-opt'),
 		newickText = container.querySelector('.svgtree-newick'),
-		settingsForm = container.querySelector('.svgtree-settings'),
-		nodePanel = container.querySelector('.svgtree-node'),
-		nodeText = container.querySelector('.svgtree-node-text');
+		settingsForm = container.querySelector('.svgtree-settings');
 		
 	var showingNewick = false,
 		showingSettings = false; 
 		
 	function onselect(node) {
-		nodePanel.style.display = (node == null) ? 'none' : 'block';
-		if (node) nodeText.textContent = node.data;
-		
 		for (var i = 0; i < nodeControls.length; i++) {
 			nodeControls[i].disabled = (node == null);
 		}
@@ -128,10 +123,6 @@ function SVGTreeViewer(tree, container, params) {
 		if (this.canUndo) {
 			undoBtn.disabled = !this.canUndo();
 			redoBtn.disabled = !this.canRedo();
-		}
-		
-		if (tree.selectedNode) {
-			nodeText.textContent = tree.selectedNode.data;
 		}
 	}
 	
@@ -342,7 +333,6 @@ SVGTreeViewer_template = [
 				'<button type="button" class="svgtree-op-add" title="$add_hint"></button>',
 				'<button type="button" class="svgtree-op-rem" title="$remove_hint"></button>',
 			'</div>',
-			'<div class="svgtree-node"><label>$selected</label><span class="svgtree-node-text">A<span></div>',
 		'</footer>',
 		
 		'<textarea class="svgtree-newick" spellcheck="false"></textarea>',

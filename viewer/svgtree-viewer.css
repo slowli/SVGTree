@@ -16,20 +16,27 @@
 	margin: 0 auto;
 	border-left: 1px solid #444;
 	border-right: 1px solid #444;
+	border-bottom: 1px solid #444;
 	font-family: Verdana,Arial,sans-serif;
 	font-size: 14px; 
 }
 
-.svgtree-viewer.no-footer {
-	border-bottom: 1px solid #444;
-}
-
-.svgtree-viewer header,
-.svgtree-viewer footer {
+.svgtree-viewer header {
 	background: #444;
 	color: white;
 	padding: 4px 8px;
 	height: 32px;
+}
+
+.svgtree-viewer footer {
+	height: 32px;
+	color: #444;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 20px;
+	z-index: 1001;
+	background: #f4f4f4;
 }
 
 .svgtree-viewer h3 {
@@ -65,6 +72,14 @@
 }
 .svgtree-viewer button:disabled:hover {
 	background: transparent;
+}
+
+.svgtree-viewer footer button:hover {
+	background: transparent;
+	color: orange;
+}
+.svgtree-viewer footer button:disabled:hover {
+	color: #aaa;
 }
 
 .svgtree-viewer button:before {
@@ -110,9 +125,6 @@
 	width: 100%;
 	overflow: scroll;
 	height: 320px;
-	height: calc(100% - 40px);
-}
-.no-footer .svgtree-scroll {
 	height: 100%;
 }
 
@@ -124,27 +136,6 @@
 	margin: 20px auto;
 	vertical-align: top;
 	overflow: hidden;
-}
-
-.svgtree-node {
-	margin: 8px 0px;
-	display: block;
-	text-align: left;
-	max-width: 400px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	font-size: 12px;
-}
-
-.svgtree-node label {
-	color: #ccc;
-	font-weight: normal;
-}
-
-.svgtree-node-text {
-	font-weight: bold;
-	margin-left: 1em;
 }
 
 .svgtree-newick,
