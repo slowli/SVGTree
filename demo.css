@@ -75,6 +75,9 @@ figure.scroll {
 .svgtree-viewer .svgtree-wrap {
 	border: none;
 }
+.svgtree-viewer {
+	margin: 32px auto;
+}
 
 svg {
 	width: 300px;
