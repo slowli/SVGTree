@@ -1267,6 +1267,34 @@ var SVGTree_rotations = {
 	}
 };
 
+SVGTree.processOptions = function(options) {
+	if (!options) options = { };
+	var fullOptions = { };
+	
+	for (field in SVGTree_defaults) {
+		if (!(field in options)) {
+			fullOptions[field] = SVGTree_defaults[field];
+		} else {
+			fullOptions[field] = options[field];
+		}
+	}
+	
+	var actions = options.interaction || [];
+	
+	fullOptions._canSelectNodes = actions.length > 0;
+	fullOptions._canCollapseNodes = actions.indexOf('collapse') >= 0;
+	fullOptions._canDragNodes = (actions.indexOf('drag') >= 0) 
+			|| (actions.indexOf('rearrange') >= 0);
+	fullOptions._canEditNodes = actions.indexOf('edit') >= 0; 
+	fullOptions._canAddNodes = actions.indexOf('add') >= 0; 
+	fullOptions._canRemoveNodes = actions.indexOf('remove') >= 0;
+	
+	fullOptions._dragToRearrange = (actions.indexOf('rearrange') >= 0) 
+			&& (actions.indexOf('drag') < 0);
+	
+	return fullOptions;
+};
+
 SVGTree.prototype = {
 	constructor: SVGTree,
 	
@@ -1283,31 +1311,7 @@ SVGTree.prototype = {
 	 *    complete options
 	 */
 	setOptions: function(options) {
-		if (!options) options = { };
-		this.options = { };
-		
-		for (field in SVGTree_defaults) {
-			if (!(field in options)) {
-				this.options[field] = SVGTree_defaults[field];
-			} else {
-				this.options[field] = options[field];
-			}
-		}
-		
-		if (!options.interaction) options.interaction = [];
-		
-		var actions = options.interaction;
-		
-		this.options._canSelectNodes = actions.length > 0;
-		this.options._canCollapseNodes = actions.indexOf('collapse') >= 0;
-		this.options._canDragNodes = (actions.indexOf('drag') >= 0) 
-				|| (actions.indexOf('rearrange') >= 0);
-		this.options._canEditNodes = actions.indexOf('edit') >= 0; 
-		this.options._canAddNodes = actions.indexOf('add') >= 0; 
-		this.options._canRemoveNodes = actions.indexOf('remove') >= 0;
-		
-		this.options._dragToRearrange = (actions.indexOf('rearrange') >= 0) 
-				&& (actions.indexOf('drag') < 0);
+		this.options = SVGTree.processOptions(options);
 		
 		if (this.svg) {
 			this.svgWrapper.classList.toggle('svgtree-h', this.options.orientation == 'h');

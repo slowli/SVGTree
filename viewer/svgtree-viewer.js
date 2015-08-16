@@ -228,7 +228,7 @@ function SVGTreeViewer(tree, container, params) {
 		params.onrender = onrender;
 		
 		// Fill missing parameters
-		var fullParams = {};
+		var fullParams = params;
 		for (field in params) {
 			fullParams[field] = params[field];
 		}
@@ -237,33 +237,39 @@ function SVGTreeViewer(tree, container, params) {
 				fullParams[field] = SVGTreeViewer_defaults[field];
 			}
 		}
+		
 		return fullParams;
 	}
 
 	function init() {
 		params = processParams(params);
-		tree = new SVGTree(tree, treeContainer, params);
-		var readonly = !tree.options._canAddNodes 
-			&& !tree.options._canRemoveNodes
-			&& !tree.options._canEditNodes
-			&& !tree.options._canDragNodes;
+		
+		// Some manipulations are better to perform before the three is created
+		
+		var treeOptions = SVGTree.processOptions(params);
+		var readonly = !treeOptions._canAddNodes 
+			&& !treeOptions._canRemoveNodes
+			&& !treeOptions._canEditNodes
+			&& !treeOptions._canDragNodes;
 		if (readonly) {
 			newickText.setAttribute('readonly', true);
 			params.undo = false;
 		}
-		if (!tree.options._canSelectNodes) {
+		if (!treeOptions._canSelectNodes) {
 			params.footer = false;
 		}
 		
 		title.textContent = container.getAttribute('title');
 		container.setAttribute('title', '');
 		
-		if (!tree.options._canAddNodes) addBtn.remove();
-		if (!tree.options._canRemoveNodes) removeBtn.remove();
+		if (!treeOptions._canAddNodes) addBtn.remove();
+		if (!treeOptions._canRemoveNodes) removeBtn.remove();
 		if (!params.footer) {
 			nodePanel.parentNode.remove();
 			container.classList.add('no-footer');
 		}
+		
+		tree = new SVGTree(tree, treeContainer, params);
 		
 		if (params.undo) {
 			tree.getState = function() { 
