@@ -80,12 +80,18 @@
 	<title>SVGTree Demo</title>
 </head>
 <body>
-	<h1>SVGTree Demo</h1>
+	<section>
+		<hgroup><h1>SVGTree Demo</h1></hgroup>
+		
+		<p>The examples on this page showcase the basic functionality of the trees made with SVGTree.
+		The code fragments below use jQuery. It is not required by SVGTree, but used to simplify the code of examples.</p>
+	</section>
 	
-	<p>The examples on this page showcase the basic functionality of the trees made with SVGTree.
-	The code fragments below use jQuery. It is not required by SVGTree, but used to simplify the code of examples.</p>
+	<hr/>
 	
-	<div class="row">
+	<section>
+		<hgroup><h2>Initialization</h2></hgroup>
+	
 		<figure>
 			<div id="test-init"></div>
 		</figure>
@@ -107,9 +113,13 @@
 			new SVGTree('(A,B)C;', svg);
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Newick Format</h2></hgroup>
+	
 		<figure>
 			<div id="test-newick"></div>
 		</figure>
@@ -131,9 +141,13 @@
 				container, options);
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Representation</h2></hgroup>
+	
 		<figure>
 			<div id="test-edges-nodes"></div>
 		</figure>
@@ -155,9 +169,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Orientation</h2></hgroup>
+	
 		<figure>
 			<div id="test-hmode"></div>
 		</figure>
@@ -177,9 +195,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Size</h2></hgroup>
+	
 		<figure>
 			<div id="test-resize"></div>
 		</figure>
@@ -200,9 +222,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Collapse Option</h2></hgroup>
+	
 		<figure>
 			<div id="test-collapse"></div>
 		</figure>
@@ -224,9 +250,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Edit Option</h2></hgroup>
+	
 		<figure>
 			<div id="test-edit"></div>
 		</figure>
@@ -255,9 +285,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Rearrange Option</h2></hgroup>
+	
 		<figure>
 			<div id="test-rearrange"></div>
 		</figure>
@@ -285,9 +319,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Adding and Removing Nodes</h2></hgroup>
+	
 		<figure>
 			<div id="test-add"></div>
 		</figure>
@@ -316,9 +354,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Drag'n'Drop</h2></hgroup>
+	
 		<figure>
 			<div id="test-drag"></div>
 		</figure>
@@ -355,19 +397,19 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Drag'n'Drop Between Trees</h2></hgroup>
+	
 		<p>Note that nodes can be dragged between different trees that support drag-n-drop, e.g. the two trees to the bottom.</p>
 	
-		<div style="text-align: center;">
-			<figure style="float: none; margin-right: 2em;">
-				<div id="test-drag-2trees-1"></div>
-			</figure>
-			<figure style="float: none;">
-				<div id="test-drag-2trees-2"></div>
-			</figure>
-		</div>
+		<figure class="row">
+			<div id="test-drag-2trees-1" style="margin-right: 1em;"></div>
+			<div id="test-drag-2trees-2"></div>
+		</figure>
 		
 		<p><button id="test-drag-2trees-restore">Restore original trees</button></p>
 		
@@ -395,9 +437,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Text Drag'n'Drop</h2></hgroup>
+	
 		<figure>
 			<div id="test-text-drag"></div>
 		</figure>
@@ -435,9 +481,13 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
 	
-	<div class="row">
+	<hr/>
+	
+	<section>
+		<hgroup><h2>Large Trees</h2></hgroup>
+	
 		<p>SVGTree can be used to visualize moderately big trees. For example, the tree below has 300 nodes.</p>
 
 		<p><button id="test-max-gen">Generate a new tree</button></p>
@@ -471,6 +521,11 @@
 			});
 		})();
 		</script>
-	</div>
+	</section>
+	
+	<hr/>
+	<footer class="main">
+	&copy; 2015 Alex Ostrovski
+	</footer>
 </body>
 </html>
