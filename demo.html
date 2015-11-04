@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width">
 
 	<link rel="stylesheet" type="text/css" href="svgtree.css" />
 	<link rel="stylesheet" type="text/css" href="demo.css" />
@@ -69,7 +70,7 @@
 			return lines.join('\n');
 		}
 	
-		$('pre.code').each(function() {
+		$('pre code').each(function() {
 			var el = $(this),
 				script = $('#' + el.data('script')).text();
 			$(this).text(prepareScript(script));
@@ -387,7 +388,7 @@
 		<p>Note that nodes can be dragged between different trees that support drag-n-drop, e.g. the two trees to the bottom.</p>
 	
 		<figure class="row">
-			<div id="test-drag-2trees-1" style="margin-right: 1em;"></div>
+			<div id="test-drag-2trees-1"></div>
 			<div id="test-drag-2trees-2"></div>
 		</figure>
 		

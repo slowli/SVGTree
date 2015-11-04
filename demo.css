@@ -5,10 +5,9 @@
 
 body {
 	margin: 0 auto;
-	min-width: 480px;
 	padding: 0;
 	font-family: Calibri,"Droid Sans",Arial,sans-serif;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 1.4;
 }
 
@@ -78,7 +77,16 @@ figure.row {
 	margin: 0 auto 1em;
 	float: none;
 	text-align: center;
-	white-space: nowrap;
+}
+figure.scroll {
+	float: none;
+	width: 800px;
+	height: 540px;
+	overflow: scroll;
+	line-height: 0;
+}
+.scroll .svgtree-wrap {
+	border: none;
 }
 
 @media(max-width: 900px) {
@@ -91,11 +99,16 @@ figure.row {
 	.notes {
 		margin-left: 0;
 	}
+	
+	figure.scroll {
+		width: calc(100% - 20px);
+		height: 400px;
+	}
 }
 
 code,pre.code {
 	font-family: Consolas,"Droid Sans Mono","Courier New",monospace;
-	font-size: 12px;
+	font-size: 11px;
 	background: #f8f8ff;
 	color: #444;
 }
@@ -142,13 +155,10 @@ svg.small .label {
 	border: 1px solid black;
 }
 
-figure.scroll {
-	float: none;
-	width: 800px;
-	height: 540px;
-	overflow: scroll;
-	line-height: 0;
-}
-.scroll .svgtree-wrap {
-	border: none;
+/* Mobile devices. */
+
+@media (max-width: 719px) {
+	section {
+		padding: 0 1em;
+	}
 }
