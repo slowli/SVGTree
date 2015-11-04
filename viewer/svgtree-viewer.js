@@ -114,9 +114,9 @@ function SVGTreeViewer(tree, container, params) {
 		
 	function onselect(node) {
 		for (var i = 0; i < nodeControls.length; i++) {
-			nodeControls[i].disabled = (node == null);
+			nodeControls[i].disabled = (node === null);
 		}
-		removeBtn.disabled = (node == null) || (node.parent == null);
+		removeBtn.disabled = (node === null) || (node.parent === null);
 	}
 	
 	function onchange() {
@@ -134,8 +134,8 @@ function SVGTreeViewer(tree, container, params) {
 		
 		treeContainer.style.marginTop = margin + 'px';
 		
-		var hidden = (scroll.scrollWidth == scroll.clientWidth)
-				&& (scroll.scrollHeight == scroll.clientHeight);
+		var hidden = (scroll.scrollWidth == scroll.clientWidth) && 
+				(scroll.scrollHeight == scroll.clientHeight);
 		locationBtn.style.display = hidden ? 'none' : 'inline-block';
 	}
 	
@@ -219,7 +219,7 @@ function SVGTreeViewer(tree, container, params) {
 		params.onrender = onrender;
 		
 		// Fill missing parameters
-		var fullParams = params;
+		var fullParams = params, field;
 		for (field in params) {
 			fullParams[field] = params[field];
 		}
@@ -238,10 +238,10 @@ function SVGTreeViewer(tree, container, params) {
 		// Some manipulations are better to perform before the three is created
 		
 		var treeOptions = SVGTree.processOptions(params);
-		var readonly = !treeOptions._canAddNodes 
-			&& !treeOptions._canRemoveNodes
-			&& !treeOptions._canEditNodes
-			&& !treeOptions._canDragNodes;
+		var readonly = !treeOptions._canAddNodes &&  
+			!treeOptions._canRemoveNodes && 
+			!treeOptions._canEditNodes && 
+			!treeOptions._canDragNodes;
 		if (readonly) {
 			newickText.setAttribute('readonly', true);
 			params.undo = false;

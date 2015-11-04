@@ -9,16 +9,16 @@
 // Add classList field for SVG elements in Internet Explorer
 if (!('classList' in SVGElement.prototype)) {
 
-	function _ClassList(element) {
+	var _ClassList = function(element) {
 		this._element = element;
-	}
+	};
 
 	_ClassList.prototype = {
 		constructor: _ClassList,
 		
 		_getClasses: function() {
 			var className = this._element.className.baseVal.trim();
-			return (className == '') ? [] : className.split(/\s+/);
+			return (className === '') ? [] : className.split(/\s+/);
 		},
 		
 		_setClasses: function(classes) {
@@ -46,7 +46,7 @@ if (!('classList' in SVGElement.prototype)) {
 		},
 
 		toggle: function(name, force) {
-			var add = (force == undefined) ? !this.contains(name) : force;
+			var add = (force === undefined) ? !this.contains(name) : force;
 			if (add) {
 				this.add(name);
 			} else {
@@ -69,12 +69,12 @@ if (!('classList' in SVGElement.prototype)) {
 		}
 	};
 
-	function _classList() {
+	var _classList = function() {
 		if (!this._classList) {
 			this._classList = new _ClassList(this);
 		}
 		return this._classList;
-	}
+	};
 	
 	Object.defineProperty(SVGElement.prototype, 'classList', {
 		'get': _classList,
@@ -195,7 +195,7 @@ Tree.prototype = {
 	 * @param {Tree} child
 	 */
 	append: function(child) {
-		if (child.parent != null) {
+		if (child.parent !== null) {
 			child.parent.children.remove(child);
 		}
 		this.children.push(child);
@@ -209,7 +209,7 @@ Tree.prototype = {
 	 *    node to add as a child
 	 */
 	prepend: function(child) {
-		if (child.parent != null) {
+		if (child.parent !== null) {
 			child.parent.children.remove(child);
 		}
 		this.children.splice(0, 0, child);
@@ -222,7 +222,7 @@ Tree.prototype = {
 			if (currentPos < position) position--;
 		}
 		
-		if (child.parent != null) {
+		if (child.parent !== null) {
 			child.parent.children.remove(child);
 		}
 		this.children.splice(position, 0, child);
@@ -240,7 +240,7 @@ Tree.prototype = {
 	 *    this tree
 	 */
 	parse: function(text, factory) {
-		if (factory == undefined) {
+		if (factory === undefined) {
 			factory = function(data) {
 				return new Tree(data);
 			};
@@ -257,7 +257,7 @@ Tree.prototype = {
 				var data = (typeof(tokens[pos]) == 'string') ? tokens[pos] : '';
 				if (typeof(tokens[pos]) == 'string') pos--;
 
-				if (parent == null) {
+				if (parent === null) {
 					this.data = data; node = this;
 				} else {
 					node = factory(data);
@@ -328,7 +328,7 @@ Tree.prototype = {
 	 * @returns {Boolean}
 	 */
 	isLeaf: function() {
-		return this.children.length == 0;
+		return this.children.length === 0;
 	},
 	
 	/**
@@ -338,7 +338,7 @@ Tree.prototype = {
 	 */
 	root: function() {
 		var root = this;
-		while (root.parent != null) root = root.parent;
+		while (root.parent !== null) root = root.parent;
 		return root;
 	},
 	
@@ -430,7 +430,7 @@ var SVGTree_contentType = 'application/x-newick';
  */
 function svgTag(tag) {
 	return document.createElementNS('http://www.w3.org/2000/svg', tag);
-};
+}
 
 function SVGTreeNode(data, owner) {
 	Tree.call(this, data);
@@ -443,7 +443,7 @@ function SVGTreeNode(data, owner) {
 	this.svgLabel = null;
 	this.collapsed = false;
 	this.owner = owner;
-};
+}
 
 SVGTreeNode.prototype = Object.create(Tree.prototype);
 
@@ -594,8 +594,8 @@ SVGTreeNode.prototype._setLeafPositions = function(start) {
 		if (len % 2 == 1) {
 			this._leafPosition = ch[(len - 1) / 2]._leafPosition;
 		} else {
-			this._leafPosition = (ch[len / 2 - 1]._leafPosition 
-				+ ch[len / 2]._leafPosition) / 2;
+			this._leafPosition = (ch[len / 2 - 1]._leafPosition +
+				ch[len / 2]._leafPosition) / 2;
 		}
 	}
 	return start;
@@ -676,7 +676,8 @@ SVGTreeNode.prototype._calculateMargins = function() {
 	
 	for (var i = 0; i < this.children.length; i++) {
 		var margin = this.children[i]._leftMargin;
-		for (var d = 0; d < margin.length; d++) {
+		var d;
+		for (d = 0; d < margin.length; d++) {
 			if (d + 1 >= this._leftMargin.length) {
 				this._leftMargin[d + 1] = margin[d];
 			} else {
@@ -685,7 +686,7 @@ SVGTreeNode.prototype._calculateMargins = function() {
 		}
 		
 		margin = this.children[i]._rightMargin;
-		for (var d = 0; d < margin.length; d++) {
+		for (d = 0; d < margin.length; d++) {
 			if (d + 1 >= this._rightMargin.length) {
 				this._rightMargin[d + 1] = margin[d];
 			} else {
@@ -705,24 +706,26 @@ SVGTreeNode.prototype._calculateMargins = function() {
  */
 SVGTreeNode.prototype._realign = function() {
 	var MAX = 1000000;
+	var L, pivot, i, d, queue;
 	
 	if (!this.collapsed && !this.isLeaf()) {
-		var ch = this.children, L = ch.length;
+		var ch = this.children;
+		L = ch.length;
 		
-		var pivot = (L % 2 == 1) ? ((L - 1) / 2) : (L / 2 - 1);
-		for (var i = pivot; i >= 0; i--) ch[i]._realign();
-		for (var i = pivot + 1; i < L; i++) ch[i]._realign();
+		pivot = (L % 2 == 1) ? ((L - 1) / 2) : (L / 2 - 1);
+		for (i = pivot; i >= 0; i--) ch[i]._realign();
+		for (i = pivot + 1; i < L; i++) ch[i]._realign();
 		
-		if (L % 2 == 0) {
+		if (L % 2 === 0) {
 			this._leafPosition = (ch[pivot]._leafPosition + ch[pivot + 1]._leafPosition) / 2;
 		} else {
 			this._leafPosition = ch[pivot]._leafPosition;
 		}
 	}
 	
-	if (this.parent == null) {
-		var queue = this.visualQueue();
-		for (var i = 0; i < queue.length; i++) {
+	if (this.parent === null) {
+		queue = this.visualQueue();
+		for (i = 0; i < queue.length; i++) {
 			var node = queue[i];
 
 			delete node._leftMargin;
@@ -752,7 +755,7 @@ SVGTreeNode.prototype._realign = function() {
 				siblingMargin = (pos < pivot) ? sibling._leftMargin : sibling._rightMargin;
 			
 			if (siblingMargin) {
-				for (var d = 0; d < siblingMargin.length; d++) {
+				for (d = 0; d < siblingMargin.length; d++) {
 					var margin = (d < thisMargin.length) ? thisMargin[d] : -dir * MAX;
 					shift = Math.min(shift, dir * (siblingMargin[d] - margin) - 1);
 				}
@@ -761,16 +764,16 @@ SVGTreeNode.prototype._realign = function() {
 		shift *= dir;
 		
 		this._leafPosition += shift;
-		for (var d = 0; d < this._leftMargin.length; d++) {
+		for (d = 0; d < this._leftMargin.length; d++) {
 			this._leftMargin[d] += shift;
 		}
-		for (var d = 0; d < this._rightMargin.length; d++) {
+		for (d = 0; d < this._rightMargin.length; d++) {
 			this._rightMargin[d] += shift;
 		}
 		
 		// TODO This takes much time; could it be done better?
-		var queue = this.visualQueue();
-		for (var i = 1; i < queue.length; i++) {
+		queue = this.visualQueue();
+		for (i = 1; i < queue.length; i++) {
 			queue[i]._leafPosition += shift;
 		}
 	}
@@ -799,7 +802,7 @@ SVGTreeNode.prototype.toggleClass = function(cls, force) {
  * Collapses this node, hiding all of its descendants.
  */
 SVGTreeNode.prototype.collapse = function() {
-	if ((this.children.length == 0) || this.collapsed) return;
+	if ((this.children.length === 0) || this.collapsed) return;
 	
 	this.removeSVG();
 	this.svgNode.classList.remove(_hoverCls);
@@ -812,7 +815,7 @@ SVGTreeNode.prototype.collapse = function() {
  * Expands this node, revealing its descendants.
  */
 SVGTreeNode.prototype.expand = function() {
-	if ((this.children.length == 0) || !this.collapsed) return;
+	if ((this.children.length === 0) || !this.collapsed) return;
 
 	this.svgNode.classList.remove(_hoverCls);
 	this.collapsed = false;
@@ -860,10 +863,10 @@ SVGTreeNode.prototype.setData = function(data) {
  * The content may be either an existing node or a text in Newick format.
  */
 SVGTreeNode.prototype.insertContent = function(node, position) {
-	if (position == undefined) position = this.children.length;
+	if (position === undefined) position = this.children.length;
 	if (typeof(node) == 'number') {
 		position = node; node = ';';
-	} else if (node == undefined) {
+	} else if (node === undefined) {
 		node = ';';
 	}
 	
@@ -1036,7 +1039,7 @@ SVGTreeNode.prototype._ondragend = function(event) {
 	this.owner.svgWrapper.classList.remove('svgtree-drag');
 	this.owner.select(this);
 	
-	if ((this.owner._dragNode != null) && (event.dataTransfer.dropEffect == 'move')) {
+	if ((this.owner._dragNode !== null) && (event.dataTransfer.dropEffect == 'move')) {
 		// Node wasn't removed yet (dragged to a different tree or another target),
 		// we should remove it now
 		this.remove();
@@ -1080,7 +1083,7 @@ SVGTreeNode.prototype._checkInsertionPoint = function(point, event) {
 	var rearrange = this.owner.options._dragToRearrange;
 	if (rearrange && (point == 'child')) return false;
 
-	if ((this.parent == null) && (point != 'child')) return false;
+	if ((this.parent === null) && (point != 'child')) return false;
 		
 	if (event.dataTransfer.dropEffect == 'copy') {
 		// Copies of trees may be put anywhere (except as siblings of the root)
@@ -1088,7 +1091,7 @@ SVGTreeNode.prototype._checkInsertionPoint = function(point, event) {
 	}
 	
 	var dragNode = this.owner._dragNode;
-	if (dragNode != null) {
+	if (dragNode !== null) {
 		if (this == dragNode) {
 			return false;
 		} else if ((point != 'child') && (this.parent == dragNode)) {
@@ -1114,9 +1117,9 @@ SVGTreeNode.prototype._ondragover = function(event) {
 		dragAsText = this.owner.options.dragAsText;
 	
 	for (var i = 0; i < types.length; i++) {
-		if ((types[i] == 'Text') 
-			|| (types[i] == SVGTree_contentType) 
-			|| (dragAsText && (types[i] == 'text/plain'))) {
+		if ((types[i] == 'Text') || 
+			(types[i] == SVGTree_contentType) || 
+			(dragAsText && (types[i] == 'text/plain'))) {
 
 			var point = this.owner._getInsertionPoint(event);
 				
@@ -1145,8 +1148,8 @@ SVGTreeNode.prototype._ondragover = function(event) {
 			}
 			
 			insertionPt.setAttribute('transform', 
-				'translate(' + this.x + ' ' + this.y + ')'
-				+ ' rotate(' + this.owner._rotation(point) + ')');
+				'translate(' + this.x + ' ' + this.y + ')' +
+				' rotate(' + this.owner._rotation(point) + ')');
 			
 			break;
 		}
@@ -1177,9 +1180,9 @@ SVGTreeNode.prototype._ondrop = function(event) {
 		types = event.dataTransfer.types;
 		
 	for (var i = 0; i < types.length; i++) {
-		if ((types[i] == 'Text') 
-			|| (types[i] == 'text/plain') 
-			|| (types[i] == SVGTree_contentType)) {
+		if ((types[i] == 'Text') || 
+			(types[i] == 'text/plain') || 
+			(types[i] == SVGTree_contentType)) {
 
 			dropData = event.dataTransfer.getData(types[i]);
 			break;
@@ -1271,7 +1274,7 @@ SVGTree.processOptions = function(options) {
 	if (!options) options = { };
 	var fullOptions = { };
 	
-	for (field in SVGTree_defaults) {
+	for (var field in SVGTree_defaults) {
 		if (!(field in options)) {
 			fullOptions[field] = SVGTree_defaults[field];
 		} else {
@@ -1283,14 +1286,14 @@ SVGTree.processOptions = function(options) {
 	
 	fullOptions._canSelectNodes = actions.length > 0;
 	fullOptions._canCollapseNodes = actions.indexOf('collapse') >= 0;
-	fullOptions._canDragNodes = (actions.indexOf('drag') >= 0) 
-			|| (actions.indexOf('rearrange') >= 0);
+	fullOptions._canDragNodes = (actions.indexOf('drag') >= 0) || 
+			(actions.indexOf('rearrange') >= 0);
 	fullOptions._canEditNodes = actions.indexOf('edit') >= 0; 
 	fullOptions._canAddNodes = actions.indexOf('add') >= 0; 
 	fullOptions._canRemoveNodes = actions.indexOf('remove') >= 0;
 	
-	fullOptions._dragToRearrange = (actions.indexOf('rearrange') >= 0) 
-			&& (actions.indexOf('drag') < 0);
+	fullOptions._dragToRearrange = (actions.indexOf('rearrange') >= 0) && 
+			(actions.indexOf('drag') < 0);
 	
 	return fullOptions;
 };
@@ -1343,7 +1346,7 @@ SVGTree.prototype = {
 			// We don't need to reposition nodes if we are rendering a single node
 		}
 		
-		this._createEdges(queue, options),
+		this._createEdges(queue, options);
 		this._createNodes(queue, options);
 		this._createLabels(queue, options);
 		
@@ -1500,8 +1503,8 @@ SVGTree.prototype = {
 				createEdge = SVGTreeNode.prototype.directEdge;
 				break;
 			case 'angular':
-				createEdge = (options.orientation == 'h') 
-						? SVGTreeNode.prototype.vhEdge : SVGTreeNode.prototype.hvEdge;
+				createEdge = (options.orientation == 'h') ? 
+						SVGTreeNode.prototype.vhEdge : SVGTreeNode.prototype.hvEdge;
 				break;
 		}
 		
@@ -1525,8 +1528,8 @@ SVGTree.prototype = {
 	 *    tree display options
 	 */
 	_createLabels: function(queue, options) {
-		var createLabel = (options.orientation == 'v') 
-				? SVGTreeNode.prototype.centeredHLabel : SVGTreeNode.prototype.hLabel;
+		var createLabel = (options.orientation == 'v') ? 
+				SVGTreeNode.prototype.centeredHLabel : SVGTreeNode.prototype.hLabel;
 		
 		for (var i = 0; i < queue.length; i++) {
 			var node = queue[i],
@@ -1580,7 +1583,7 @@ SVGTree.prototype = {
 				background.setAttribute('width', box.width + 4);
 				background.setAttribute('height', box.height + 4);
 				
-				background.setAttribute('display', (box.width == 0) ? 'none' : 'inline');
+				background.setAttribute('display', (box.width === 0) ? 'none' : 'inline');
 			}
 		}
 	},
@@ -1608,7 +1611,7 @@ SVGTree.prototype = {
 	 * Sets the content of this tree.
 	 */
 	setContent: function(text, notify) {
-		if (notify == undefined) notify = true;
+		if (notify === undefined) notify = true;
 	
 		if (this.root) this.root.removeSVG();
 		this.root = this.parse(text);
@@ -1647,9 +1650,9 @@ SVGTree.prototype = {
 		
 		this.svg.classList.add('svgtree');
 		
-		if (this.options._canCollapseNodes 
-			|| this.options._canAddNodes 
-			|| this.options._canRemoveNodes) {
+		if (this.options._canCollapseNodes || 
+			this.options._canAddNodes || 
+			this.options._canRemoveNodes) {
 
 			container.setAttribute('tabindex', '0');
 			
