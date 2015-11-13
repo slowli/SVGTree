@@ -107,7 +107,8 @@ function SVGTreeViewer(tree, container, params) {
 		newickBtn = container.querySelector('.svgtree-op-nwck'),
 		settingsBtn = container.querySelector('.svgtree-op-opt'),
 		newickText = container.querySelector('.svgtree-newick'),
-		settingsForm = container.querySelector('.svgtree-settings');
+		settingsForm = container.querySelector('.svgtree-settings'),
+		settingsContent = settingsForm.querySelector('.svgtree-set-cont');
 		
 	var showingNewick = false,
 		showingSettings = false; 
@@ -154,7 +155,6 @@ function SVGTreeViewer(tree, container, params) {
 	}
 	
 	function toggleNewickForm() {
-		console.log(tree.svg.outerHTML);
 		tree.select(null);
 		
 		if (showingNewick) {
@@ -171,7 +171,11 @@ function SVGTreeViewer(tree, container, params) {
 		showingNewick = !showingNewick;
 	}
 	
-	function toggleSettingsForm() {
+	function toggleSettingsForm(event) {
+		if ((event.target !== settingsForm) && (event.target !== settingsBtn)) {
+			return false;
+		}
+		
 		settingsForm.style.display = showingSettings ? 'none' : 'block';
 		
 		undoBtn.style.display = !showingSettings ? 'none' : 'inline-block';
@@ -186,6 +190,7 @@ function SVGTreeViewer(tree, container, params) {
 			setRadioButton(settingsForm, 'orientation', tree.options.orientation);
 			setRadioButton(settingsForm, 'nodes', tree.options.nodes);
 			setRadioButton(settingsForm, 'edges', tree.options.edges);
+			settingsContent.style.marginTop = (-settingsContent.clientHeight / 2) + 'px';
 		}
 		
 		settingsBtn.classList.toggle('selected');
@@ -294,6 +299,7 @@ function SVGTreeViewer(tree, container, params) {
 		
 		if (params.settings) {
 			settingsBtn.addEventListener('click', toggleSettingsForm);
+			settingsForm.addEventListener('click', toggleSettingsForm);
 		} else {
 			settingsBtn.remove();
 			settingsForm.remove();
@@ -337,7 +343,7 @@ SVGTreeViewer_template = [
 		
 		'<textarea class="svgtree-newick" spellcheck="false"></textarea>',
 		'<form class="svgtree-settings">',
-			'<h4>$settings</h4>',
+			'<div class="svgtree-set-cont">',
 			'<div>',
 				'<label class="section">$orientation</label>',
 				'<input type="radio" id="orientation-h" name="orientation" value="h" checked="true" />',
@@ -358,6 +364,7 @@ SVGTreeViewer_template = [
 				'<label for="edges-straight">$edges_straight</label>',
 				'<input type="radio" id="edges-angular" name="edges" value="angular" />',
 				'<label for="edges-angular">$edges_angular</label>',
+			'</div>',
 			'</div>',
 		'</form>',
 	'</div>'

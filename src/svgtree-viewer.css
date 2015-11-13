@@ -21,6 +21,8 @@
 	font-size: 14px; 
 }
 
+.svgtree-viewer * { box-sizing: content-box; }
+
 /* Scalability. */
 @media (max-width: 540px) {
 	.svgtree-viewer {
@@ -61,6 +63,7 @@
 .svgtree-viewer button {
 	display: inline-block;
 	border: none;
+	border-radius: 0;
 	margin: 0 2px;
 	padding: 4px;
 	font-size: 24px;
@@ -180,16 +183,23 @@
 /* Settings. */
 
 .svgtree-settings {
-	background: rgba(0,0,0,0.7);
+	background: #444;
 	color: white;
-	padding: 2em;
+	overflow: auto;
+	background: rgba(0,0,0,0.5);
 }
 
-.svgtree-settings h4 {
-	font-size: 125%;
-	margin: 0 0 1em;
-	padding: 0 0 0.25em;
-	border-bottom: 1px solid;
+.svgtree-set-cont {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 272px;
+	padding: 8px;
+	margin-left: -145px;
+	background: #444;
+	border: 1px solid orange;
+	z-index: 2001;
 }
 
 .svgtree-settings input[type="radio"] {
@@ -207,11 +217,14 @@
 .svgtree-settings label[for] {
 	display: inline-block;
 	margin: 4px;
-	padding: 4px 6px;
+	padding: 2px 4px;
+	color: #aaa;
 }
 
 .svgtree-settings label[for]:hover, 
 .svgtree-settings input[type="radio"]:checked + label {
+	color: #fff;
+}
+.svgtree-settings input[type="radio"]:checked + label {
 	background: orange;
 }
-
