@@ -1,6 +1,7 @@
 extends ./demo-common.jade
 
-- pageTitle = "Demo | SVGTree";
+block init
+  - pageTitle = "Demo | SVGTree";
 
 mixin sec(name, id)
   hr
@@ -17,7 +18,7 @@ block content
     hgroup
       h2 SVGTree Demo
     p.
-      The examples on this page showcase the basic functionality of the trees made with SVGTree.
+      The examples on derp this page showcase the basic functionality of the trees made with SVGTree.
 	
   +sec("Initialization", "init")
     p.

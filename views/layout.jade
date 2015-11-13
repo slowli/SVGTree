@@ -1,7 +1,4 @@
 -
-  //var url_root = url_root || "";
-  //var static_html = static_html || false;
-
   var staticRoot = url_root + "/static";
   var app_files = {
       main: staticRoot + "/svgtree-" + app_version + ".min.js",
@@ -19,6 +16,7 @@
       return url;
   };
 
+block init
 doctype html
 html(lang="en")
   head
@@ -39,7 +37,8 @@ html(lang="en")
           li
             a(href=route("viewer-demo")) Viewer Demo
       header.main-head
-        h1 SVGTree
+        h1 
+          a(href=route("")) SVGTree
     .main-content
       block content
       hr
