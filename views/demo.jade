@@ -1,0 +1,245 @@
+extends ./demo-common.jade
+
+- pageTitle = "Demo | SVGTree";
+
+mixin sec(name, id)
+  hr
+  section
+    hgroup
+      h2= name	
+    figure
+      div(id="test-" + id)
+    .notes
+      block
+
+block content
+  section
+    hgroup
+      h2 SVGTree Demo
+    p.
+      The examples on this page showcase the basic functionality of the trees made with SVGTree.
+	
+  +sec("Initialization", "init")
+    p.
+      Trees can be created using the <code>SVGTree</code> function. The function accepts the three arguments:
+      the <a href="http://en.wikipedia.org/wiki/Newick_format">Newick notation</a>, the container element (usually, a &lt;DIV&gt;), 
+      and (optionally) display options.
+    +code("init").
+      // In HTML:
+      // &lt;div id="test-init"&gt;&lt;/div&gt;
+      var svg = document.querySelector('#test-init');
+      new SVGTree('(A,B)C;', svg);
+
+  +sec("Newick Format", "newick")
+    p To include special characters (<code>,();</code>) associated with the nodes of the tree, escape them with a backslash <code>\</code>.
+    +code("newick").
+      var container = document.querySelector('#test-newick');
+      var options = {
+          'leafDistance': 50 // widen the tree a little
+      };
+      new SVGTree('(s\l\a\sh\\\\,node,(node 2,comma \\,)\\(parentheses\\))R;', 
+           container, options);
+
+  +sec("Representation", "edges-nodes")
+    p.
+      Options allow to change the presentation of the tree. For example, <code>edges</code> parameter
+      controls the shape of the edges (angular or straight), and <code>nodes</code> parameter determines
+      the shape of the nodes.
+    +code("edges-nodes").
+      var container = document.querySelector('#test-edges-nodes');
+      new SVGTree('(A,),(B,C),(D,E))R;', container, {
+          'nodes': 'square',
+          'edges': 'straight'
+      });
+
+  +sec("Orientation", "hmode")
+    p.
+      In addition to the vertical mode (children below their ancestors), the tree can be rendered in the horizontal mode
+      (children to the right of their ancestors).
+    +code("hmode").
+      var container = document.querySelector('#test-hmode');
+      new SVGTree('(A,),(B,C),(D,E))R;', container, {
+          'orientation': 'h'
+      });
+
+  +sec("Size", "resize")
+    p.
+      By default, the size of the SVG element where the tree is drawn isn't set, which means you should specify it,
+      e.g. using CSS. This behavior can be changed by setting <code>size</code> option to <code>'fit'</code> (to fit the tree), 
+      or an array of the two values (width and height of the SVG element in pixels).
+    +code("resize").
+      var container = document.querySelector('#test-resize');
+      new SVGTree('(A,),(B,C),(D,E))R;', container, {
+          'size': 'fit'
+      });
+
+  +sec("Collapse Option", "collapse")
+    p.
+      The tree may respond to the user events. The degree of interaction can be tuned using <code>interaction</code> option, 
+      which takes an array of possible interactions.
+      For example, you can allow to collapse and expand tree nodes; these operations don't actually modify the tree.
+      To collapse or expand a node, double click on it or use space or enter keys.
+    +code("collapse").
+      var container = document.querySelector('#test-collapse');
+      new SVGTree('((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;', container, {
+          'interaction': ['collapse']
+      });
+
+  +sec("Edit Option", "edit")
+    p.
+      To allow editing the tree, set <code>interaction</code> option to <code>'edit'</code>.
+      This allows editing node tags.
+    p
+      button#test-edit-restore Restore original tree
+    +code("edit").
+      var container = document.querySelector('#test-edit'),
+          notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+      var tree = new SVGTree(notation, container, {
+          'interaction': ['edit']
+      });
+      document.querySelector('#test-edit-restore').onclick = function() {
+          // We can use SVGTree.setContent function to quickly change
+          // the entire tree
+          tree.setContent(notation);
+      };
+
+  +sec("Rearrange Option", "rearrange")
+    p.
+      If you specify <code>'rearrange'</code> option in <code>interaction</code>, the sibling nodes 
+      can be rearranged by dragging. Note that this option doesn't change the semantics of the tree 
+      for most applications.
+    p
+      button#test-rearrange-restore Restore original tree
+    +code("rearrange").
+      var container = document.querySelector('#test-rearrange'),
+          notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+      var tree = new SVGTree(notation, container, {
+          'interaction': ['rearrange']
+      });
+      document.querySelector('#test-rearrange-restore').onclick = function() {
+          tree.setContent(notation);
+      };
+
+  +sec("Adding and Removing Nodes", "add")
+    p.
+      To allow adding and removing nodes from the tree, you may use <code>'add'</code> and <code>'remove'</code>
+      options, respectively. Nodes can be removed from the tree using delete key and added using insert key.
+      Note that to edit the labels of the newly created nodes, you have to specify <code>'edit'</code> option together 
+      with <code>'add'</code>.
+    p
+      button#test-add-restore Restore original tree
+    +code("add").
+      var container = document.querySelector('#test-add'),
+          notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+      var tree = new SVGTree(notation, container, {
+          'interaction': ['add', 'remove', 'collapse']
+      });
+      document.querySelector('#test-add-restore').onclick = function() {
+          tree.setContent(notation);
+      };
+
+  +sec("Drag'n'Drop", "drag")
+    p.
+      Finally, you can allow to drag the nodes of the tree by including <code>'drag'</code> action 
+      into the <code>interaction</code> option.
+      You can select any of the three insertion points for a dragged subtree:
+    ul
+      li before the node
+      li after the node
+      li as a child of the node
+    p.
+      The active insertion point is marked with an arrow pointing in the direction the dragged subtree 
+      is going to be inserted.
+    p If you press Ctrl key during drag, the subtree will be copied and not moved.
+    p
+      button#test-drag-restore Restore original tree
+    +code("drag").
+      var container = document.querySelector('#test-drag'),
+          notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+      var tree = new SVGTree(notation, container, {
+          'interaction': ['collapse', 'drag', 'remove']
+      });
+      document.querySelector('#test-drag-restore').onclick = function() {
+          tree.setContent(notation);
+      };
+
+  hr
+  section
+    hgroup
+      h2 Drag'n'Drop Between Trees
+    p Note that nodes can be dragged between different trees that support drag-n-drop, e.g. the two trees to the bottom.
+    figure.row
+      #test-drag-2trees-1
+      | 
+      #test-drag-2trees-2
+    p
+      button#test-drag-2trees-restore Restore original trees
+    +code("drag-2trees").
+      var container1 = document.querySelector('#test-drag-2trees-1'),
+          notation1 = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+      var tree1 = new SVGTree(notation1, container1, {
+          'interaction': ['collapse', 'drag', 'remove']
+      });
+      var container2 = document.querySelector('#test-drag-2trees-2'),
+          notation2 = '((1,2),(3,4),(5,6));';
+      var tree2 = new SVGTree(notation2, container2, {
+          'orientation': 'h',
+          'interaction': ['collapse', 'drag', 'remove']
+      });
+      document.querySelector('#test-drag-2trees-restore').onclick = function() {
+          tree1.setContent(notation1);
+          tree2.setContent(notation2);
+      };
+
+  +sec("Text Drag'n'Drop", "text-drag")
+    p.
+      By default, you can drag nodes only within the same tree or between trees on the same page. 
+      To allow dragging text from outside sources, set <code>dragAsText</code> option to true.
+      The dragged text is interpreted as Newick form of a subtree to be added to the tree.
+      In case the Newick form is malformed, the text is used to create a single node.
+    p.
+      The same option allows dropping nodes anywhere on the HTML page or other applications
+      where the text input is expected. The dropped text is the Newick representation of the dragged subtree.
+    p.
+      <b>Note.</b> Due to Microsoft being Microsoft, <code>dragAsText</code> option is effectively always true 
+      in Internet Explorer.
+    p Try to drag a node here: <input type="text" size="40" />
+    p
+      button#test-text-drag-restore Restore original tree
+    +code("text-drag").
+      var container = document.querySelector('#test-text-drag'),
+          notation = '((B,((F,((M,N,O)K,L)G)D,(H,I)E)C)A;';
+      var tree = new SVGTree(notation, container, {
+          'interaction': ['drag', 'remove'],
+          'dragAsText': true
+      });
+      document.querySelector('#test-text-drag-restore').onclick = function() {
+        tree.setContent(notation);
+      };
+
+  hr
+  section
+    hgroup
+      h2 Large Trees
+    p SVGTree can be used to visualize moderately big trees. For example, the tree below has 300 nodes.
+    p
+      button#test-max-gen Generate a new tree
+    div(style={"text-align": "center", "margin-top": "3em"})
+      figure.scroll
+        #test-max
+    +code("max").
+      // randomTree is a function that generates random trees
+      // (you can inspect it by viewing the source code of this file).
+      var container = document.querySelector('#test-max'),
+          nodes = 300, // Number of nodes in the tree
+          maxChildren = 4, // Maximum number of children of each node
+          notation = randomTree(nodes, maxChildren).newick();
+      var tree = new SVGTree(notation, container, {
+          'interaction': ['collapse'],
+          'size': 'fit',
+          'labelBackgrounds': false
+      });
+      document.querySelector('#test-max-gen').onclick = function() {
+          tree.setContent(randomTree(nodes, maxChildren).newick());
+      };
+

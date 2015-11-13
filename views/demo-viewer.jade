@@ -1,0 +1,67 @@
+extends ./demo-common.jade
+
+- pageTitle = "Viewer Demo | SVGTree";
+
+mixin sec(name, id, title)
+  hr
+  section
+    hgroup
+      h2= name
+    div(id="test-" + id, title=title)&attributes(attributes)
+    block
+
+block content
+  section
+    hgroup
+      h2 SVGTree Viewer Demo
+    p.
+      The examples on this page showcase the basic functionality of the trees made with SVGTree Viewer plug-in.
+	
+  +sec("Basic Functionality", "basic", "Sample Tree")
+    +code("basic").
+      var container = document.getElementById('test-basic');
+      SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+          'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
+          'newick': false,
+          'undo': false
+      });
+
+  +sec("Customizable Actions", "buttons", "No Undo & Newick Buttons")
+    p.
+      You can disable undo, settings and / or Newick notation buttons by specifying appropriate boolean options 
+      (<code>undo</code>, <code>settings</code>, <code>newick</code>).
+    +code("buttons").
+      var container = document.getElementById('test-buttons');
+      SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+          'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
+          'newick': false,
+          'undo': false
+      });
+
+  +sec("Widget Size", "size", "Small Size")(style={ width: "300px", height: "300px" })
+    p.
+      You can specify the size of a widget using width and / or height styles (e.g., using <code>&lt;div ... style="width: 500px; height: 500px;"&gt;</code>).
+      Note that for the optimal layout, the width and the height of the widget should be no less than <code>300px</code>.
+    +code("size").
+      var container = document.getElementById('test-size');
+      SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+          'interaction': false
+      });
+	  
+  +sec("Locate Button", "locate", "Locate")(style={ height: "600px" })
+    p.
+      For large trees, there is a useful Locate button which centers the displayed area of the tree on the selected node.
+    p
+      button#test-locate-gen(type="button") Generate a tree
+    +code("locate").
+      var container = document.querySelector('#test-locate'),
+          nodes = 300, // Number of nodes in the tree
+          maxChildren = 4, // Maximum number of children of each node
+          notation = randomTree(nodes, maxChildren).newick();
+      var tree = new SVGTreeViewer(notation, container, {
+          'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
+          'labelBackgrounds': false
+      });
+      document.querySelector('#test-locate-gen').onclick = function() {
+         tree.setContent(randomTree(nodes, maxChildren).newick());
+      };

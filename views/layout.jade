@@ -1,0 +1,54 @@
+-
+  //var url_root = url_root || "";
+  //var static_html = static_html || false;
+
+  var staticRoot = url_root + "/static";
+  var app_files = {
+      main: staticRoot + "/svgtree-" + app_version + ".min.js",
+      css: staticRoot + "/svgtree-" + app_version + ".min.css",
+      viewer: staticRoot + "/svgtree-viewer-" + app_version + ".min.js",
+      viewer_css: staticRoot + "/svgtree-viewer-" + app_version + ".min.css",
+      zip: staticRoot + "/svgtree-" + app_version + ".zip"
+  };
+  var pageTitle = "SVGTree";
+
+  var route = function(view, anchor) {
+      if ((view === '') && static_html) view = 'index';
+      var url = url_root + '/' + view + (static_html ? '.html' : '');
+      if (anchor !== undefined) url += '#' + anchor;
+      return url;
+  };
+
+doctype html
+html(lang="en")
+  head
+    meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+    meta(name="viewport", content="width=device-width")
+    block styles
+      link(rel="stylesheet", type="text/css", href=staticRoot + "/demo.css")
+    block scripts
+    title= pageTitle
+  body
+    block header
+      nav.head
+        ul
+          li
+            a(href=route("", "start")) Getting Started
+          li
+            a(href=route("demo")) Demo
+          li
+            a(href=route("viewer-demo")) Viewer Demo
+      header.main-head
+        h1 SVGTree
+    .main-content
+      block content
+      hr
+      footer.main-footer
+        div &copy; 2015 Alex Ostrovski 
+        nav.foot
+          h3 Links
+          ul
+            li
+              a(href="https://github.com/slowli/SVGTree") Github
+            li
+              a(href="http://softandware.org.ua/") Blog

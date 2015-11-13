@@ -1,0 +1,188 @@
+extends ./layout.jade
+
+block prepend styles
+  link(rel="stylesheet", type="text/css", href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/default.min.css")
+  link(rel="stylesheet", type="text/css", href=app_files.css)
+block append scripts
+  script(src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js")
+  script.
+    hljs.initHighlightingOnLoad();
+  script(src=app_files.main)
+block content
+  section
+    figure
+      #tree
+    .notes
+      p(style={"font-size": "18px"}) Handy library for rendering trees based on HTML5 technologies
+      ul
+        li Supported by all major browsers (Firefox, Google Chrome, and IE 11+)
+        li Supports user interaction
+        li Has no external JavaScript dependencies
+      p.dl  
+        a(href=app_files.zip).dl
+          span.dl-main Download version #{app_version}
+          span.dl-aux (minified & zipped)
+    script.
+      (function() {
+         var elem = document.getElementById("tree");
+         new SVGTree("((A,B)C,(D,E)F);", elem, { size: [300, 300], interaction: [ 'edit', 'rearrange' ] });
+      })();
+  section#start
+    hgroup
+      h2 Getting Started
+      
+    p.
+      To use the library, include its main script and stylesheet in the head section of the page:
+
+    -
+      var code = [
+        '<html>',
+        '<head>',
+        '    <!-- other HTML -->',
+        '    <link rel="stylesheet" type="text/css" href="svgtree.css" />',
+        '    <script src="svgtree.js"></script>',
+        '</head>'
+      ].join('\n');
+    pre
+      code.lang-html= code
+
+    p.
+      Then, use SVGTree constructor to initialize the tree:
+      
+    -
+      var code = [
+        '<body>',
+        '    <!-- other elements -->',
+        '    <div id="tree"></div>',
+        '    <script>',
+        '    var notation = "((A,B)C,(D,E)F);"',
+        '    var container = document.getElementById("tree");',
+        '    new SVGTree(notation, container);',
+        '    </script>',
+        '</body>',
+        '</html>'
+      ].join('\n');
+    pre
+      code.lang-html= code
+
+  section
+    hgroup
+      h2 Usage
+
+    p The basic form of the constructor is
+    pre
+      code.lang-js= "new SVGTree(notation, container, options)"
+    p where
+    ul
+      li <code>notation</code> is the <a href="https://en.wikipedia.org/Newick_format">Newick format notation</a> for the tree
+      li <code>container</code> is the HTML element to hold the tree, normally an empty <code>&lt;div&gt;</code> element
+      li <code>options</code> are the display options in the form of a JavaScript object.
+
+    p Recognized options:
+
+    ul
+      li
+        strong orientation
+
+        p Determines the orientation of the tree. One of the following:
+        ul
+          li <code>'h'</code> (children below their ancestors)
+          li <code>'v'</code> (children to the right of their ancestors)
+
+        p Default value: <code>'v'</code>.
+
+      li
+        strong nodes
+
+        p Determines the shape of node markers. Allowed values are <code>'circle'</code> and <code>'square'</code>.
+
+        p Default value: <code>'circle'</code>.
+
+      li
+        strong edges
+
+        p Determines the shape of edges in the tree. Allowed values are <code>'straight'</code> and <code>'angular'</code>.
+
+        p Default value: <code>'angular'</code>.
+
+      li
+        strong size
+
+        p.
+          Determines the size of the <strong>&lt;svg&gt;</strong> element containing the tree.
+          Either an array of two values that determine the width and the height
+          of the <strong>&lt;svg&gt;</strong> element in pixels, or one of the two strings:
+        ul
+          li <code>'fit'</code> to resize the <strong>&lt;svg&gt;</strong> element to fit the entire tree after each rendering operation
+          li <code>'keep'</code> to keep the size of the <strong>&lt;svg&gt;</strong> element set externally (e.g., in a stylesheet).
+
+        p Default value: <code>'keep'</code>.
+
+      li
+        strong interaction
+
+        p Determines how a user can interact with the tree. An array of zero or more strings:
+        ul
+          li <code>'collapse'</code> - a user can collapse and expand nodes
+          li <code>'rearrange'</code> - a user can rearrange siblings
+          li <code>'edit'</code> - a user can edit node labels
+          li <code>'add'</code> - a user can add new nodes into the tree by pressing insert key
+          li <code>'remove'</code> - a user can remove nodes from the tree by pressing delete key
+          li.
+            <code>'drag'</code> - a user can use drag'n'drop to move or copy portions of the tree
+            (note that the nodes can be dragged between two trees on the same HTML page)
+
+        p A special value <code>false</code> is equivalent to an empty array (no interactions allowed).
+
+        p Default value: <code>false</code>.
+
+      li
+        strong dragAsText
+
+        p.
+          Allows to drag text from outside sources. The dragged text is interpreted as Newick form 
+          of a subtree to be added to the tree. In case the Newick form is malformed, 
+          the text is used to create a single node.
+			
+        p.
+          The same option allows dropping nodes anywhere on the HTML page or other applications
+          where the text input is expected. The dropped text is the Newick representation 
+          of the dragged subtree.
+
+        p Default value: <code>false</code>.
+        p Note: <strong>dragAsText</strong> is effectively always true in IE 11.
+
+      li
+        strong depthDistance
+
+        p.
+          Distance in pixels between neighboring levels of the tree. If the tree, for example, 
+          has a horizontal layout, all nodes on the same level have the same X coordinate. 
+          Hence, <strong>depthDistance</strong> is defined as the horizontal distance 
+          between the neighboring levels.
+
+        p Default value: <code>50</code>.
+
+      li
+        strong leafDistance
+
+        p Minimal distance in pixels between nodes on the same level of the tree.
+
+        p Default value: <code>40</code>.
+
+      li
+        strong padding
+
+        p Minimal distance in pixels between container edges and the elements of the tree.
+
+        p Default value: <code>30</code>.
+
+      li
+        strong labelBackgrounds
+
+        p.
+          If true, a semi-transparent rectangle is drawn behind each node label to improve readability.
+          Determining rectangle positions is the most costly operation during rendering, so
+          it makes sense to switch off label backgrounds for big trees.
+
+        p Default value: <code>true</code>.

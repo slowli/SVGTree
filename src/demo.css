@@ -1,0 +1,231 @@
+/**
+ * Stylesheet for SVGTree demo.
+ * (c) 2015, Alex Ostrovski
+ */
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Calibri,"Droid Sans",Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+	min-width: 360px;
+}
+
+/* Element-wide definitions. */
+
+a {
+	color: #66f;
+}
+a:hover {
+	color: #aaf;
+}
+
+h1 {
+	font-size: 48px;
+}
+h2 {
+	font-size: 32px;
+	color: #aac;
+}
+h4 {
+	margin: 1em 0 0.25em;
+}
+
+code,pre.code {
+	font-family: Consolas,"Droid Sans Mono","Courier New",monospace;
+	font-size: 11px;
+	background: #f8f8ff;
+	color: #444;
+}
+code {
+	padding: 0 2px;
+}
+pre.code {
+	border-left: 3px solid #ccf;
+	padding: 4px 6px;
+	margin: 0;
+	overflow-x: auto;
+}
+
+figcaption {
+	font-size: small;
+	color: #444;
+	margin-top: 0.5em;
+	max-width: 300px;
+}
+
+/* Sections of the page. */
+
+.main-head {
+	background: #ccf;
+	color: #fff;
+	padding: 24px;
+	text-align: center;
+}
+
+nav.head ul,
+nav.foot ul {
+	margin: 0;
+	padding: 0;
+	list-style: none outside none;
+}
+nav.head li {
+	display: inline-block;
+	margin: 4px;
+}
+nav.head a {
+	display: inline-block;
+	padding: 4px;
+}
+
+nav.foot h3 {
+	text-transform: all-caps;
+	margin: 1em 0;
+}
+
+.main-content {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 2em 8px;
+}
+
+.main-footer {
+	margin: 3em auto;
+	padding: 1em;
+	max-width: 900px;
+	text-align: center;
+	font-size: small;
+}
+
+section h2 {
+	text-align: center;
+	margin: -1em 0 1em;
+}
+section {
+	margin: 3em 0 4em;
+}
+section:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+hr {
+	border: none;
+	border-bottom: 2px solid #ccf;
+	margin: 3em 1em;
+}
+hr:before {
+	content: '';
+	display: block;
+	height: 10px;
+	position: relative;
+	top: 5px;
+	background: linear-gradient(to right, white 0%, transparent 25%, transparent 75%, white 100%);
+}
+
+section figure {
+	display: inline-block;
+	margin: 0 0 1em;
+	float: left;
+	clear: left;
+}
+.notes {
+	margin-left: 350px;
+}
+figure.row {
+	display: block;
+	margin: 0 auto 1em;
+	float: none;
+	text-align: center;
+}
+figure.scroll {
+	float: none;
+	width: 800px;
+	height: 540px;
+	overflow: scroll;
+	line-height: 0;
+}
+.scroll .svgtree-wrap {
+	border: none;
+}
+
+.main-content ul {
+	padding: 0 0 0 20px;
+}
+
+@media(max-width: 900px) {
+	section figure {
+		display: block;
+		margin: 0 auto 1em;
+		float: none;
+		text-align: center;
+	}
+	.notes {
+		margin-left: 0;
+	}
+	
+	figure.scroll {
+		width: calc(100% - 20px);
+		height: 400px;
+	}
+}
+
+.svgtree-wrap,
+figure.scroll {
+	border: 1px solid #aaa;
+}
+.svgtree-viewer .svgtree-wrap {
+	border: none;
+}
+.svgtree-viewer {
+	margin: 32px auto;
+}
+
+svg {
+	width: 300px;
+	height: 300px;
+	display: inline-block;
+}
+
+svg.small .label {
+	font-size: 10px;
+}
+
+.debug-wrap {
+	border: 1px solid black;
+}
+
+/* Download link. */
+p.dl {
+	text-align: center;
+	margin: 2.5em 0;
+}
+
+a.dl {
+	display: inline-block;
+	width: 250px;
+	text-decoration: none;
+	padding: 8px 16px;
+	color: #fff;
+	background: #66f;
+	text-align: center;
+}
+a.dl span {
+	display: block;
+}
+.dl-main {
+	font-size: 20px;
+	margin-bottom: 8px;
+	display: block;
+	font-weight: bold;
+}
+
+/* Mobile devices. */
+
+@media (max-width: 719px) {
+	section {
+		padding: 0 1em;
+	}
+}

@@ -1,0 +1,66 @@
+extends ./layout.jade
+
+//- Code fragment
+mixin code(id)
+  h4 Code
+  pre
+    code
+      block
+  script(id="test-" + id + "-src")
+    | (function() {
+    block
+    | })();
+
+block prepend styles
+  link(rel="stylesheet", type="text/css", href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/default.min.css")
+  link(rel="stylesheet", type="text/css", href=app_files.css)
+block append scripts
+  script(src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js")
+  script.
+    hljs.initHighlightingOnLoad();
+  script(src=app_files.main)
+  script.
+    /**
+     * Generates a random rooted tree.
+     */
+    function randomTree(nodes, maxChildren) {
+        var tree = new Tree();
+        tree.data = '0';
+        
+        var queue = [ tree ];
+        while (queue.length < nodes) {
+            var i = -1;
+            do {
+                i = Math.floor(Math.random() * queue.length);
+            } while (queue[i].children.length >= maxChildren);
+            
+            var node = queue[i], child = new Tree();
+            // Add a child to the node
+            child.data = '' + queue.length;
+            node.append(child);
+            queue.push(child);
+            
+            if (node.children.length == 1) {
+                // Don't let nodes in the tree with a single child
+                child = new Tree();
+                child.data = '' + queue.length;
+                node.append(child);
+                queue.push(child);
+            }
+        }
+        
+        // Permutate the children of each node (if we don't do that, leftmost nodes will have
+        // more children).
+        
+        for (var i = 0; i < queue.length; i++) {
+            var node = queue[i], ch = node.children;
+            if (ch.length > 0) {
+                var x = Math.floor(Math.random() * ch.length),
+                    y = Math.floor(Math.random() * ch.length);
+                
+                var t = ch[x]; ch[x] = ch[y]; ch[y] = t;
+            }
+        }
+        
+        return tree;
+    }
