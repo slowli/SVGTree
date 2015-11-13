@@ -85,7 +85,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('html', 'Generates static HTML pages for the site', function() {
-		var pages = [ 'index', 'demo' ];
+		var pages = [ 'index', 'demo', 'viewer-demo' ];
 		pages.forEach(function(page) {
 			var html = jade.renderFile('./views/' + page + '.jade', { 
 				app_version: pkg.version,

@@ -19,7 +19,7 @@ app.get('/demo', function(req, res) {
 	res.render('demo', viewOptions);
 });
 app.get('/viewer-demo', function(req, res) {
-	res.render('demo-viewer', viewOptions);
+	res.render('viewer-demo', viewOptions);
 });
 
 app.set('port', process.env.PORT || 4000);
