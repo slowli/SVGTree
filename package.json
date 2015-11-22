@@ -11,7 +11,15 @@
     "HTML5",
     "SVG"
   ],
-  "author": "Alex Ostrovski",
+  "author": {
+    "name": "Alex Ostrovski",
+    "email": "ostrovski.alex@gmail.com",
+    "url": "http://softandware.org.ua/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/slowli/SVGTree.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.13.3",
