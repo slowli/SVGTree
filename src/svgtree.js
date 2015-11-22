@@ -977,11 +977,11 @@ SVGTreeNode.prototype._addTargetListeners = function(options) {
 		
 	if (options._canSelectNodes) {
 		this.htmlTarget.addEventListener('click', function(event) {
-			self.owner.select(self);
-		});
-		this.htmlTarget.addEventListener('dblclick', function(event) {
-			event.preventDefault();
-			self.toggle();
+			if (self.owner.selectedNode === self) {
+				if (options._canCollapseNodes) self.toggle();
+			} else {
+				self.owner.select(self);
+			}
 		});
 		this.htmlTarget.addEventListener('mouseenter', function(event) {
 			self.svgNode.classList.add(_hoverCls);			
@@ -992,11 +992,11 @@ SVGTreeNode.prototype._addTargetListeners = function(options) {
 		
 		// User should be able to select nodes by clicking the label
 		this.svgNode.addEventListener('click', function(event) {
-			self.owner.select(self);
-		});
-		this.svgNode.addEventListener('dblclick', function(event) {
-			event.preventDefault();
-			self.toggle();
+			if (self.owner.selectedNode === self) {
+				if (options._canCollapseNodes) self.toggle();
+			} else {
+				self.owner.select(self);
+			}
 		});
 	}
 };
