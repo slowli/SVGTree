@@ -21,7 +21,7 @@ block content
   +sec("Basic Functionality", "basic", "Sample Tree")
     +code("basic").
       var container = document.getElementById('test-basic');
-      SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+      new SVGTreeViewer('((A,B),(C,D)F)E;', container, {
           'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
           'newick': false,
           'undo': false
@@ -33,7 +33,7 @@ block content
       (<code>undo</code>, <code>settings</code>, <code>newick</code>).
     +code("buttons").
       var container = document.getElementById('test-buttons');
-      SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+      new SVGTreeViewer('((A,B),(C,D)F)E;', container, {
           'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
           'newick': false,
           'undo': false
@@ -45,7 +45,7 @@ block content
       Note that for the optimal layout, the width and the height of the widget should be no less than <code>300px</code>.
     +code("size").
       var container = document.getElementById('test-size');
-      SVGTreeViewer('((A,B),(C,D)F)E;', container, {
+      new SVGTreeViewer('((A,B),(C,D)F)E;', container, {
           'interaction': false
       });
 	  

@@ -61,10 +61,10 @@ function UndoFixture(object) {
 }
 
 SVGTreeViewer_defaults = {
-	'undo': true,
-	'newick': true,
-	'settings': true,
-	'footer': true
+	undo: true,
+	newick: true,
+	settings: true,
+	footer: true
 };
 
 function setRadioButton(form, field, value) {
@@ -383,23 +383,23 @@ SVGTreeViewer_template = [
 ].join('\n');
 
 SVGTreeViewer.localization = {
-	'undo_hint': 'Undo the latest change',
-	'redo_hint': 'Repeat the undone change',
-	'settings_hint': 'Display settings',
-	'newick_hint': 'Newick format for the tree',
-	'add_hint': 'Add a new child of the selected node',
-	'remove_hint': 'Remove the selected node and all its descendants',
-	'loc_hint': 'Center the plot on the selected node',
-	'settings': 'Display settings',
-	'orientation': 'Orientation',
-	'orientation_h': 'horizontal',
-	'orientation_v': 'vertical',
-	'nodes': 'Node Shape',
-	'nodes_square': 'square',
-	'nodes_circle': 'round',
-	'edges': 'Edge Shape',
-	'edges_straight': 'straight',
-	'edges_angular': 'angular'
+	undo_hint: 'Undo the latest change',
+	redo_hint: 'Repeat the undone change',
+	settings_hint: 'Display settings',
+	newick_hint: 'Newick format for the tree',
+	add_hint: 'Add a new child of the selected node',
+	remove_hint: 'Remove the selected node and all its descendants',
+	loc_hint: 'Center the plot on the selected node',
+	settings: 'Display settings',
+	orientation: 'Orientation',
+	orientation_h: 'horizontal',
+	orientation_v: 'vertical',
+	nodes: 'Node Shape',
+	nodes_square: 'square',
+	nodes_circle: 'round',
+	edges: 'Edge Shape',
+	edges_straight: 'straight',
+	edges_angular: 'angular'
 };
 
 window.SVGTreeViewer = SVGTreeViewer;

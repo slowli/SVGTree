@@ -77,9 +77,9 @@ if (!('classList' in SVGElement.prototype)) {
 	};
 	
 	Object.defineProperty(SVGElement.prototype, 'classList', {
-		'get': _classList,
-		'enumerable': true,
-		'configurable': true
+		get: _classList,
+		enumerable: true,
+		configurable: true
 	});
 }
 
@@ -104,8 +104,8 @@ function innerClientPos(element) {
 		compStyle = window.getComputedStyle(element);
 		
 	return {
-		'left': rect.left + parseFloat(compStyle['border-left-width']),
-		'top': rect.top  + parseFloat(compStyle['border-top-width'])
+		left: rect.left + parseFloat(compStyle['border-left-width']),
+		top: rect.top  + parseFloat(compStyle['border-top-width'])
 	};
 }
 
@@ -1229,44 +1229,44 @@ function SVGTree(newick, container, options) {
  * Default options for SVGTree initialization.
  */
 var SVGTree_defaults = {
-	'orientation': 'v',
-	'nodes': 'circle',
-	'edges': 'angular',
-	'leafDistance': 40,
-	'depthDistance': 50,
-	'padding': 30,
-	'size': 'keep',
+	orientation: 'v',
+	nodes: 'circle',
+	edges: 'angular',
+	leafDistance: 40,
+	depthDistance: 50,
+	padding: 30,
+	size: 'keep',
 	
-	'interaction': false,
-	'dragAsText': false,
-	'targetSize': 25,
+	interaction: false,
+	dragAsText: false,
+	targetSize: 25,
 	
-	'labelBackgrounds': true,
+	labelBackgrounds: true,
 	
-	'summary': function(node) {
+	summary: function(node) {
 		var nDescendants = node.queue().length - 1;
 		return '(' + nDescendants + ')';
 	},
 	
 	// Event listeners
-	'onrender': function() { },
-	'onselect': function(node) { },
-	'onchange': function() { }
+	onrender: function() { },
+	onselect: function(node) { },
+	onchange: function() { }
 };
 
 /**
  * Rotations of insertion point marker depending on tree orientation.
  */
 var SVGTree_rotations = {
-	'v': {
-		'after': 0,
-		'child': 90,
-		'before': 180
+	v: {
+		after: 0,
+		child: 90,
+		before: 180
 	},
-	'h': {
-		'after': 90,
-		'before': 270,
-		'child': 0
+	h: {
+		after: 90,
+		before: 270,
+		child: 0
 	}
 };
 
