@@ -90,6 +90,17 @@ function localize(text, strings) {
 
 var nWidgets = 0;
 
+/**
+ * Creates a new instance of the viewer widget.
+ * 
+ * @constructor
+ * @param {String} tree
+ *    Newick notation of the tree to display
+ * @param {HTMLElement} container
+ *    Containing element (an empty DIV would suffice)
+ * @param {Object} params
+ *    widget parameters
+ */
 function SVGTreeViewer(tree, container, params) {
 
 	container.innerHTML = localize(SVGTreeViewer_template, SVGTreeViewer.localization);
@@ -316,7 +327,8 @@ function SVGTreeViewer(tree, container, params) {
 		onselect(null);
 	}
 	
-	init();
+	init();	
+	this.tree = tree;
 }
 
 SVGTreeViewer_template = [

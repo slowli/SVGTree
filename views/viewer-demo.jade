@@ -59,10 +59,10 @@ block content
           nodes = 300, // Number of nodes in the tree
           maxChildren = 4, // Maximum number of children of each node
           notation = randomTree(nodes, maxChildren).newick();
-      var tree = new SVGTreeViewer(notation, container, {
+      var viewer = new SVGTreeViewer(notation, container, {
           'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
           'labelBackgrounds': false
       });
       document.querySelector('#test-locate-gen').onclick = function() {
-         tree.setContent(randomTree(nodes, maxChildren).newick());
+         viewer.tree.setContent(randomTree(nodes, maxChildren).newick());
       };
