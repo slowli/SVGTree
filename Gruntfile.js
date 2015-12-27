@@ -81,16 +81,29 @@ module.exports = function(grunt) {
 		var data = fs.readFileSync('src/icons.woff');
 		var data = new Buffer(data).toString('base64');
 		css = css.replace("icons.woff?refresh", "data:application/font-woff;base64," + data);
-		fs.writeFileSync('tmp/embed.css', css);
+		
+		try {
+			fs.writeFileSync('tmp/embed.css', css);
+		} catch(e) {
+			if (e.code === 'ENOENT') {
+				// tmp/ directory is missing
+				fs.mkdirSync('tmp');
+				fs.writeFileSync('tmp/embed.css', css);
+			} else {
+				throw e;
+			}
+		}
 	});
 
-	grunt.registerTask('html', 'Generates static HTML pages for the site', function() {
+	grunt.registerTask('html', 'Generates static HTML pages for the site', function(urlRoot) {
+		if (urlRoot === undefined) urlRoot = '.';
+		
 		var pages = [ 'index', 'demo', 'viewer-demo' ];
 		pages.forEach(function(page) {
 			var html = jade.renderFile('./views/' + page + '.jade', { 
 				app_version: pkg.version,
 				static_html: true,
-				url_root: '.'
+				url_root: urlRoot
 			});
 			fs.writeFileSync('static-html/' + page + '.html', html);
 		});
