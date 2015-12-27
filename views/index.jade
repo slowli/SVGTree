@@ -77,8 +77,10 @@ block content
       li <code>notation</code> is the <a href="https://en.wikipedia.org/Newick_format">Newick format notation</a> for the tree
       li <code>container</code> is the HTML element to hold the tree, normally an empty <code>&lt;div&gt;</code> element
       li <code>options</code> are the display options in the form of a JavaScript object.
+      
+    p See <a href="#{route('demo')}">the demo</a> for the examples of usage.
 
-    p Recognized options:
+    p#tree-options Recognized options:
 
     ul
       li
@@ -184,5 +186,44 @@ block content
           If true, a semi-transparent rectangle is drawn behind each node label to improve readability.
           Determining rectangle positions is the most costly operation during rendering, so
           it makes sense to switch off label backgrounds for big trees.
+
+        p Default value: <code>true</code>.
+        
+  section
+    hgroup
+      h2 SVGTree Viewer
+
+    p SVGTree Viewer is a widget that simplifies interaction with a tree. The widget is created similarly to the tree:
+    pre
+      code.lang-js= "new SVGTreeViewer(notation, container, options)"
+    p where
+    ul
+      li <code>notation</code> is the <a href="https://en.wikipedia.org/Newick_format">Newick format notation</a> for the tree
+      li <code>container</code> is the HTML element to hold the tree, normally an empty <code>&lt;div&gt;</code> element
+      li <code>options</code> are the display options in the form of a JavaScript object.
+      
+    p See <a href="#{route('viewer-demo')}">the viewer demo</a> for the examples of usage.
+      
+    p The widget recognizes <a href="#tree-options">all options of the tree constructor</a> and some more:
+
+    ul
+      li
+        strong undo
+
+        p Whether to display undo and redo buttons.
+
+        p Default value: <code>true</code>.
+        
+      li
+        strong newick
+
+        p Whether to allow to switch to the Newick representation of the tree.
+
+        p Default value: <code>true</code>.
+
+      li
+        strong settings
+
+        p Whether to allow a user to customize tree display settings.
 
         p Default value: <code>true</code>.
