@@ -437,10 +437,17 @@ function SVGTreeNode(data, owner) {
 	
 	this.x = 0;
 	this.y = 0;
+	
 	this.svgEdge = null;
-	this.svgNode = null;
+	this.svgNode = svgTag('g');
 	this.svgMarker = null;
-	this.svgLabel = null;
+	this.svgLabel = svgTag('text');
+	var labelGroup = svgTag('g');
+	labelGroup.classList.add('label');
+	labelGroup.appendChild(this.svgLabel);
+	this.svgNode.appendChild(labelGroup);
+	
+	this._renderedMarker = null; // currently rendered marker type
 	this.collapsed = false;
 	this.owner = owner;
 }
@@ -459,63 +466,100 @@ SVGTreeNode.prototype.parse = function(data) {
  * Renders a circle for a tree node.
  */
 SVGTreeNode.prototype.circleMarker = function() {
-	var svgMarker;
-	
-	if (this.svgMarker) {
-		svgMarker = this.svgMarker;
-	} else {
-		svgMarker = svgTag('circle');
-		svgMarker.setAttribute('r', 4);
-	}
-	
-	svgMarker.setAttribute('cx', this.x);
-	svgMarker.setAttribute('cy', this.y);
-	
-	this.svgMarker = svgMarker;
+	var svgMarker = svgTag('circle');
+	svgMarker.setAttribute('r', 4);
+	return svgMarker;
 };
 
 /**
  * Renders a square for a tree node.
  */
-SVGTreeNode.prototype.squareMarker = function() {
-	var sz = 8, svgMarker;
-	
-	if (this.svgMarker) {
-		svgMarker = this.svgMarker;
-	} else {
-		svgMarker = svgTag('rect');
-		svgMarker.setAttribute('width', sz);
-		svgMarker.setAttribute('height', sz);
-	}
+SVGTreeNode.prototype.squareMarker = function() {	
+	var sz = 8;
+	var svgMarker = svgTag('rect');
+	svgMarker.setAttribute('width', sz);
+	svgMarker.setAttribute('height', sz);
+	return svgMarker;
+};
 
-	svgMarker.setAttribute('x', this.x - sz / 2);
-	svgMarker.setAttribute('y', this.y - sz / 2);
+SVGTreeNode.prototype._positionMarker = function() {
+	var marker = this.svgMarker;
+	switch (this._renderedMarker) {
+		case 'circle':
+			marker.setAttribute('cx', this.x);
+			marker.setAttribute('cy', this.y);
+			break;
+		case 'square':
+			var sz = 8;
+			marker.setAttribute('x', this.x - sz / 2);
+			marker.setAttribute('y', this.y - sz / 2);
+			break;
+	}
+};
+
+/**
+ * Sets the marker for this node.
+ * 
+ * @param {String} marker
+ *    one of 'circle', 'square', or null. 
+ *    null (the default value) means to inherit the marker type from the owner
+ */
+SVGTreeNode.prototype.setMarker = function(marker) {
+	var markerFunc = null;
+	this.marker = marker;
 	
-	this.svgMarker = svgMarker;
+	if (marker === null) marker = this.owner.options.nodes;
+	if (marker === this._renderedMarker) {
+		// Only reposition the marker
+		this._positionMarker();
+		return;
+	}
+	
+	if (this.svgMarker) this.svgMarker.remove();
+	switch (marker) {
+		case 'circle':
+			this.svgMarker = this.circleMarker(); break;
+		case 'square':
+			this.svgMarker = this.squareMarker(); break;
+		default: 
+			throw 'Unknown marker type: ' + marker;
+	}
+	
+	this._renderedMarker = marker;
+	this._positionMarker();
+	this.setMarkerColor(this._markerColor);
+	this.svgMarker.classList.add('marker');
+	this.svgNode.appendChild(this.svgMarker);
+};
+
+SVGTreeNode.prototype.setMarkerColor = function(color) {
+	this._markerColor = color;
+	if (this.svgMarker) {
+		this.svgMarker.style.stroke = this.svgMarker.style.fill = color;
+	}
 };
 
 /**
  * Renders tree node text horizontally.
  */
 SVGTreeNode.prototype.hLabel = function() {
-	var leftMargin = 8, topMargin = 4;
+	var leftMargin = 10, topMargin = 4;
 	
-	var svgLabel = this.svgLabel ? this.svgLabel : svgTag('text');
+	var svgLabel = this.svgLabel;
 	var x = this.x + leftMargin,
 		y = this.y + topMargin;
 	svgLabel.setAttribute('x', x);
 	svgLabel.setAttribute('y', y);
-	this.svgLabel = svgLabel;
+	svgLabel.style.setProperty('text-anchor', 'start');
 };
 
 SVGTreeNode.prototype.centeredHLabel = function() {
 	var topMargin = 20;
 	
-	var svgLabel = this.svgLabel ? this.svgLabel : svgTag('text');
+	var svgLabel = this.svgLabel;
 	svgLabel.setAttribute('x', this.x);
 	svgLabel.setAttribute('y', this.y + topMargin);
-	svgLabel.classList.add('c');
-	this.svgLabel = svgLabel;
+	svgLabel.style.setProperty('text-anchor', 'middle');
 };
 
 /**
@@ -524,15 +568,52 @@ SVGTreeNode.prototype.centeredHLabel = function() {
 SVGTreeNode.prototype.vLabel = function() {
 	var topMargin = 18, leftMargin = -4;
 	
-	var svgLabel = this.svgLabel ? this.svgLabel : svgTag('text'),
+	var svgLabel = this.svgLabel,
 		x = this.x + leftMargin,
 		y = this.y + topMargin;
 	
 	y -= 10;
-	svgLabel.setAttribute('transform', 'rotate(' + [90, x, y].join(' ') + ')');
+	svgLabel.parentNode.setAttribute('transform', 'rotate(' + [90, x, y].join(' ') + ')');
 	svgLabel.setAttribute('x', x);
 	svgLabel.setAttribute('y', y);
-	this.svgLabel = svgLabel;
+};
+
+SVGTreeNode.prototype._updateLabel = function() {
+	var label = this.svgLabel, options = this.owner.options;
+	label.textContent = this.data;
+	
+	var summary = label.querySelector('tspan');
+	if (this.collapsed) {
+		if (!summary) {
+			summary = svgTag('tspan');
+			summary.classList.add('summary');
+			summary.textContent = options.summary(this);
+			
+			if (this.data.length > 0) {
+				label.textContent += ' ';
+			}
+			label.appendChild(summary);
+		}
+	} else if (summary) {
+		summary.remove();
+	}
+	
+	if (options.labelBackgrounds) {
+		var background = this.svgLabelBg,
+			box = label.getBBox();
+		if (!background) {
+			// Create background for the label
+			background = this.svgLabelBg = svgTag('rect');
+			background.classList.add('label-bg');
+			label.parentNode.insertBefore(background, label);
+		}
+		
+		background.setAttribute('x', box.x - 2);
+		background.setAttribute('y', box.y - 2);
+		background.setAttribute('width', box.width + 4);
+		background.setAttribute('height', box.height + 4);
+		background.setAttribute('display', (box.width === 0) ? 'none' : 'inline');
+	}
 };
 
 /**
@@ -632,7 +713,8 @@ SVGTreeNode.prototype.removeSVG = function(complete) {
 		
 		if (complete) {
 			// XXX Is it really needed?
-			node.svgEdge = node.svgNode = node.svgMarker = node.svgLabel = node.svgLabelBg = null;
+			node.svgEdge = null;
+			//node._renderedMarker = null;
 		}
 	}
 };
@@ -1005,7 +1087,7 @@ SVGTreeNode.prototype._addTargetListeners = function(options) {
  * Checks if this node is not currently displayed in SVG element.
  */
 SVGTreeNode.prototype.isDetached = function() {
-	return !this.root().svgNode || !this.root().svgNode.parentNode;
+	return !this.root().svgNode.parentNode;
 };
 
 SVGTreeNode.prototype._ondragstart = function(event) {
@@ -1215,6 +1297,7 @@ SVGTreeNode.prototype._ondrop = function(event) {
 function SVGTree(newick, container, options) {
 	this.root = null;
 	
+	this.options = SVGTree_defaults();
 	this.setOptions(options);
 	this._createElements(container);
 	
@@ -1228,31 +1311,33 @@ function SVGTree(newick, container, options) {
 /**
  * Default options for SVGTree initialization.
  */
-var SVGTree_defaults = {
-	orientation: 'v',
-	nodes: 'circle',
-	edges: 'angular',
-	leafDistance: 40,
-	depthDistance: 50,
-	padding: 30,
-	size: 'keep',
-	
-	interaction: false,
-	dragAsText: false,
-	targetSize: 25,
-	
-	labelBackgrounds: true,
-	
-	summary: function(node) {
-		var nDescendants = node.queue().length - 1;
-		return '(' + nDescendants + ')';
-	},
-	
-	// Event listeners
-	onrender: function() { },
-	onselect: function(node) { },
-	onchange: function() { }
-};
+function SVGTree_defaults() {
+	return {
+		orientation: 'v',
+		nodes: 'circle',
+		edges: 'angular',
+		leafDistance: 40,
+		depthDistance: 50,
+		padding: 30,
+		size: 'keep',
+		
+		interaction: false,
+		dragAsText: false,
+		targetSize: 25,
+		
+		labelBackgrounds: true,
+		
+		summary: function(node) {
+			var nDescendants = node.queue().length - 1;
+			return '(' + nDescendants + ')';
+		},
+		
+		// Event listeners
+		onrender: function() { },
+		onselect: function(node) { },
+		onchange: function() { }
+	};
+}
 
 /**
  * Rotations of insertion point marker depending on tree orientation.
@@ -1270,19 +1355,20 @@ var SVGTree_rotations = {
 	}
 };
 
-SVGTree.processOptions = function(options) {
+SVGTree.processOptions = function(options, defaults) {
+	if (!defaults) defaults = SVGTree_defaults();
 	if (!options) options = { };
 	var fullOptions = { };
 	
-	for (var field in SVGTree_defaults) {
+	for (var field in defaults) {
 		if (!(field in options)) {
-			fullOptions[field] = SVGTree_defaults[field];
+			fullOptions[field] = defaults[field];
 		} else {
 			fullOptions[field] = options[field];
 		}
 	}
 	
-	var actions = options.interaction || [];
+	var actions = fullOptions.interaction || [];
 	
 	fullOptions._canSelectNodes = actions.length > 0;
 	fullOptions._canCollapseNodes = actions.indexOf('collapse') >= 0;
@@ -1314,7 +1400,7 @@ SVGTree.prototype = {
 	 *    complete options
 	 */
 	setOptions: function(options) {
-		this.options = SVGTree.processOptions(options);
+		this.options = SVGTree.processOptions(options, this.options);
 		
 		if (this.svg) {
 			this.svgWrapper.classList.toggle('svgtree-h', this.options.orientation == 'h');
@@ -1460,26 +1546,11 @@ SVGTree.prototype = {
 	 *    tree display options
 	 */
 	_createNodes: function(queue, options) {
-		var createMarker = null;
-		switch (options.nodes) {
-			case 'circle':
-				createMarker = SVGTreeNode.prototype.circleMarker;
-				break;
-			case 'square':
-				createMarker = SVGTreeNode.prototype.squareMarker;
-				break;
-		}
-
 		var nodes = this._getGroup(this.svg, 'nodes');
 		for (var i = 0; i < queue.length; i++) {
-			var node = queue[i], newMarker = !node.svgMarker;
-			createMarker.call(node);
+			var node = queue[i];
+			node.setMarker(node.marker ? node.marker : null);
 			
-			if (newMarker) {
-				node.svgMarker.classList.add('marker');
-				var group = node.svgNode = svgTag('g');
-				group.appendChild(node.svgMarker);
-			}
 			if (!node.svgNode.parentNode) {
 				nodes.appendChild(node.svgNode);
 			}
@@ -1528,63 +1599,15 @@ SVGTree.prototype = {
 	 *    tree display options
 	 */
 	_createLabels: function(queue, options) {
+		
 		var createLabel = (options.orientation == 'v') ? 
 				SVGTreeNode.prototype.centeredHLabel : SVGTreeNode.prototype.hLabel;
 		
 		for (var i = 0; i < queue.length; i++) {
-			var node = queue[i],
-				newLabel = !node.svgLabel;
+			var node = queue[i];
 				
 			createLabel.call(node);
-			node.svgLabel.textContent = node.data;
-			
-			var summary = node.svgLabel.querySelector('tspan');
-			if (node.collapsed) {
-				if (!summary) {
-					summary = svgTag('tspan');
-					summary.classList.add('summary');
-					summary.textContent = options.summary(node);
-					
-					if (node.data.length > 0) {
-						node.svgLabel.textContent += ' ';
-					}
-					node.svgLabel.appendChild(summary);
-				}
-			} else if (summary) {
-				summary.remove();
-			}
-			
-			if (newLabel) {
-				var labelGroup = svgTag('g');
-				labelGroup.classList.add('label');
-				labelGroup.appendChild(node.svgLabel);
-				node.svgNode.appendChild(labelGroup);
-				
-				// XXX stupid
-				var transform = node.svgLabel.getAttribute('transform');
-				if (transform && (transform.length > 0)) {
-					node.svgLabel.removeAttribute('transform');
-					labelGroup.setAttribute('transform', transform);
-				}
-			}
-			
-			if (options.labelBackgrounds) {
-				var background = node.svgLabelBg,
-					box = node.svgLabel.getBBox();
-				if (!background) {
-					// Create background for the label
-					background = node.svgLabelBg = svgTag('rect');
-					background.classList.add('label-bg');
-					node.svgLabel.parentNode.insertBefore(background, node.svgLabel);
-				}
-				
-				background.setAttribute('x', box.x - 2);
-				background.setAttribute('y', box.y - 2);
-				background.setAttribute('width', box.width + 4);
-				background.setAttribute('height', box.height + 4);
-				
-				background.setAttribute('display', (box.width === 0) ? 'none' : 'inline');
-			}
+			node._updateLabel();
 		}
 	},
 	
