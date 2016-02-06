@@ -7,7 +7,7 @@ mixin sec(name, id, title)
   hr
   section
     hgroup
-      h2= name
+      h2(id= id)= name
     div(id="test-" + id, title=title)&attributes(attributes)
     block
 
@@ -17,14 +17,19 @@ block content
       h2 SVGTree Viewer Demo
     p.
       The examples on this page showcase the basic functionality of the trees made with SVGTree Viewer plug-in.
-	
+
+    p Contents:
+    ul.demo-contents
+      li <a href="#basic">Basic functionality</a>
+      li <a href="#buttons">Customizable actions</a>
+      li <a href="#size">Widget size</a>
+      li <a href="#locate">Locate button</a>
+
   +sec("Basic Functionality", "basic", "Sample Tree")
     +code("basic").
       var container = document.getElementById('test-basic');
       new SVGTreeViewer('((A,B),(C,D)F)E;', container, {
-          'interaction': ['collapse', 'add', 'remove', 'edit', 'drag'],
-          'newick': false,
-          'undo': false
+          'interaction': ['collapse', 'add', 'remove', 'edit', 'drag']
       });
 
   +sec("Customizable Actions", "buttons", "No Undo & Newick Buttons")

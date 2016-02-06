@@ -166,6 +166,12 @@ figure.scroll {
 	padding: 0 0 0 20px;
 }
 
+.demo-contents {
+	-moz-column-width: 200px;
+	-webkit-column-width: 200px;
+	column-width: 200px;
+}
+
 @media(max-width: 900px) {
 	section figure {
 		display: block;
