@@ -21,25 +21,9 @@
 	stroke: gray;
 	fill: gray;
 }
-.svgtree .collapsed  .marker {
-	fill: white;
+.svgtree .collapsed .marker {
+	fill: white !important;
 	stroke-width: 4;
-}
-
-/* .hover class is used to emulate hover when the marker 
-   is obscured by a target for drag'n'drop. */
-.svgtree-interactive *:hover>.marker,
-.svgtree-interactive *.hover>.marker, 
-.svgtree .selected .marker {
-	stroke: orange;
-	fill: orange;
-}
-
-.svgtree-interactive .collapsed:hover .marker,
-.svgtree-interactive .collapsed.hover .marker,
-.svgtree .collapsed.selected .marker {
-	fill: white;
-	stroke: orange;
 }
 
 .svgtree .label {
@@ -52,10 +36,6 @@
 
 .svgtree .label-bg {
 	fill: rgba(255,255,255,0.7);
-}
-
-.svgtree .label .c {
-	text-anchor: middle;
 }
 
 .svgtree-editable .selected .label {
@@ -139,7 +119,7 @@
 	position: absolute;
 	box-sizing: border-box;
 	z-index: 1000;
-	border: 1px dotted transparent;
+	border: 1px solid transparent;
 }
 .svgtree-target.selected {
 	border-color: orange;
