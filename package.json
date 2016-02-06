@@ -1,10 +1,11 @@
 {
   "name": "svgtree",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Library for rendering SVG trees",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+	"restart": "grunt clean && grunt && node app.js",
     "test": "grunt test"
   },
   "keywords": [
