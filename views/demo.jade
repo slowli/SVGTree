@@ -7,7 +7,7 @@ mixin sec(name, id)
   hr
   section
     hgroup
-      h2= name	
+      h2(id= id)= name	
     figure
       div(id="test-" + id)
     .notes
@@ -19,7 +19,24 @@ block content
       h2 SVGTree Demo
     p.
       The examples on this page showcase the basic functionality of the trees made with SVGTree.
-	
+      
+    p Contents:
+    ul.demo-contents
+      li <a href="#init">Initialization</a>
+      li <a href="#newick">Newick format</a>
+      li <a href="#edges-nodes">Representation</a>
+      li <a href="#node-styles">Node styles</a>
+      li <a href="#hmode">Orientation</a>
+      li <a href="#resize">Size</a>
+      li <a href="#collapse">Collapse option</a>
+      li <a href="#edit">Edit option</a>
+      li <a href="#rearrange">Rearrange option</a>
+      li <a href="#add">Adding and removing nodes</a>
+      li <a href="#drag">Drag'n'drop</a>
+      li <a href="#drag-2trees">Drag'n'drop between trees</a>
+      li <a href="#text-drag">Text drag'n'drop</a>
+      li <a href="#large">Large trees</a>
+
   +sec("Initialization", "init")
     p.
       Trees can be created using the <code>SVGTree</code> function. The function accepts the three arguments:
@@ -46,12 +63,46 @@ block content
       Options allow to change the presentation of the tree. For example, <code>edges</code> parameter
       controls the shape of the edges (angular or straight), and <code>nodes</code> parameter determines
       the shape of the nodes.
+    p
+      button#edges-nodes-n Change node style
     +code("edges-nodes").
       var container = document.querySelector('#test-edges-nodes');
-      new SVGTree('(A,),(B,C),(D,E))R;', container, {
+      var tree = new SVGTree('(A,),(B,C),(D,E))R;', container, {
           'nodes': 'square',
           'edges': 'straight'
       });
+      
+      var btn = document.getElementById('edges-nodes-n');
+      btn.onclick = function() {
+          var style = tree.options.nodes;
+          style = (style === 'circle') ? 'square' : 'circle';
+          tree.setOptions({ nodes: style });
+      };
+      
+  +sec("Node Styles", "node-styles")
+    p.
+      You may set display styles and colors for individual nodes. The style is preserved during manipulations with the tree.
+    p
+      button#node-styles-rotate Rotate tree
+    +code("node-styles").
+      var container = document.querySelector('#test-node-styles');
+      var tree = new SVGTree('(A,),(B,C),(D,E))R;', container, {
+          interaction: [ 'collapse', 'rearrange' ]
+      });
+      // SVGTree.find finds a single node satisfying the condition
+      tree.find('A').setMarker('square');
+      tree.find('C').parent.setMarkerColor('#c00');
+      // You may use svgLabel to access SVG text element
+      // representing the node label
+      tree.find('B').svgLabel.style.fill = 'green';
+      tree.find('B').svgLabel.style.fontWeight = 'bold';
+      
+      var btn = document.getElementById('node-styles-rotate');
+      btn.onclick = function() {
+          var orient = tree.options.orientation;
+          orient = (orient === 'h') ? 'v' : 'h';
+          tree.setOptions({ orientation: orient });
+      };
 
   +sec("Orientation", "hmode")
     p.
@@ -167,7 +218,7 @@ block content
   hr
   section
     hgroup
-      h2 Drag'n'Drop Between Trees
+      h2#drag-2trees Drag'n'Drop Between Trees
     p Note that nodes can be dragged between different trees that support drag-n-drop, e.g. the two trees to the bottom.
     figure.row
       #test-drag-2trees-1
@@ -221,7 +272,7 @@ block content
   hr
   section
     hgroup
-      h2 Large Trees
+      h2#large Large Trees
     p SVGTree can be used to visualize moderately big trees. For example, the tree below has 300 nodes.
     p
       button#test-max-gen Generate a new tree
