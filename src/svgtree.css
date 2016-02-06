@@ -120,9 +120,13 @@
 	box-sizing: border-box;
 	z-index: 1000;
 	border: 1px solid transparent;
+	opacity: 0.33;
 }
 .svgtree-target.selected {
 	border-color: orange;
+}
+.svgtree-wrap:focus .svgtree-target.selected {
+	opacity: 1.0;
 }
 .svgtree-target.drag {
 	background: rgba(96,96,96,0.5);
