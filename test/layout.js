@@ -62,5 +62,40 @@ describe('layout', function () {
       expect(tree.find('c').pos).to.deep.equal({ sibling: 5, depth: 1 });
     });
   });
-});
 
+  describe('compact algorithm', function () {
+    it('should work trivially for a single-node tree', function () {
+      var tree = new Tree('abc');
+      layout(tree, { algorithm: 'compact' });
+      expect(tree.pos.sibling).to.equal(0);
+      expect(tree.pos.depth).to.equal(0);
+    });
+
+    it('should assign positions to a node with 2 children', function () {
+      var tree = newick('(a,b)c');
+      layout(tree, { algorithm: 'compact' });
+
+      expect(tree.pos).to.deep.equal({ sibling: 0.5, depth: 0 });
+      expect(tree.children[0].pos).to.deep.equal({ sibling: 0, depth: 1 });
+      expect(tree.children[1].pos).to.deep.equal({ sibling: 1, depth: 1 });
+    });
+
+    it('should assign positions to a node with 3 children', function () {
+      var tree = newick('(a,b,c)d');
+      layout(tree, { algorithm: 'compact' });
+
+      expect(tree.pos).to.deep.equal({ sibling: 1, depth: 0 });
+      expect(tree.children[0].pos).to.deep.equal({ sibling: 0, depth: 1 });
+      expect(tree.children[1].pos).to.deep.equal({ sibling: 1, depth: 1 });
+      expect(tree.children[2].pos).to.deep.equal({ sibling: 2, depth: 1 });
+    });
+
+    SAMPLES.forEach(sample => {
+      it('should compact the tree ' + sample.tree, function () {
+        var tree = newick(sample.tree);
+        layout(tree, { algorithm: 'compact' });
+        expectLayout(tree, sample.expected);
+      });
+    });
+  });
+});

@@ -1,0 +1,156 @@
+[
+  {
+    "tree": "(1,(2,3)a)b",
+    "expected": {
+      "sibling": 0.5,
+      "depth": 0,
+      "children": [
+        {
+          "sibling": 0,
+          "depth": 1
+        },
+        {
+          "sibling": 1,
+          "depth": 1,
+          "children": [
+            {
+              "sibling": 0.5,
+              "depth": 2
+            },
+            {
+              "sibling": 1.5,
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "tree": "((1,2)a,3)b",
+    "expected": {
+      "sibling": 1,
+      "depth": 0,
+      "children": [
+        {
+          "sibling": 0.5,
+          "depth": 1,
+          "children": [
+            {
+              "sibling": 0,
+              "depth": 2
+            },
+            {
+              "sibling": 1,
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "sibling": 1.5,
+          "depth": 1
+        }
+      ]
+    }
+  },
+  {
+    "tree": "((1,2)a,(3,(4)b,5)c)d",
+    "expected": {
+      "sibling": 1.75,
+      "depth": 0,
+      "children": [
+        {
+          "sibling": 0.5,
+          "depth": 1,
+          "children": [
+            {
+              "sibling": 0,
+              "depth": 2
+            },
+            {
+              "sibling": 1,
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "sibling": 3,
+          "depth": 1,
+          "children": [
+            {
+              "sibling": 2,
+              "depth": 2
+            },
+            {
+              "sibling": 3,
+              "depth": 2,
+              "children": [
+                {
+                  "sibling": 3,
+                  "depth": 3
+                }
+              ]
+            },
+            {
+              "sibling": 4,
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "tree": "((1,2,3)a,b,(4,5,6,7)c)",
+    "expected": {
+      "sibling": 2.75,
+      "depth": 0,
+      "children": [
+        {
+          "sibling": 1,
+          "depth": 1,
+          "children": [
+            {
+              "sibling": 0,
+              "depth": 2
+            },
+            {
+              "sibling": 1,
+              "depth": 2
+            },
+            {
+              "sibling": 2,
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "sibling": 2.75,
+          "depth": 1
+        },
+        {
+          "sibling": 4.5,
+          "depth": 1,
+          "children": [
+            {
+              "sibling": 3,
+              "depth": 2
+            },
+            {
+              "sibling": 4,
+              "depth": 2
+            },
+            {
+              "sibling": 5,
+              "depth": 2
+            },
+            {
+              "sibling": 6,
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
