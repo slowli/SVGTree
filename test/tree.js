@@ -194,6 +194,22 @@ describe('Tree', function () {
     });
   });
 
+  describe('siblings', function () {
+    it('should work with an isolated node', function () {
+      var tree = new Tree('apple');
+      expect(tree.siblings()).to.deep.equal([ tree ]);
+    });
+
+    it('should work for a node with siblings', function () {
+      var tree = new Tree('apple');
+      var child = new Tree('banana');
+      var anotherChild = new Tree('lemon');
+      tree.append(child).append(anotherChild);
+      expect(child.siblings()).to.deep.equal([ child, anotherChild ]);
+      expect(anotherChild.siblings()).to.deep.equal([ child, anotherChild ]);
+    });
+  });
+
   describe('find', function () {
     it('should work with a string', function () {
       var tree = new Tree('apple');
