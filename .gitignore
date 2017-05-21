@@ -1,8 +1,5 @@
 /node_modules
 /npm-debug.log
-/public
-/static-html
-/tmp
-/versions
+
 .*
 !/.gitignore

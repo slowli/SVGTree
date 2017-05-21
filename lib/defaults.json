@@ -1,0 +1,35 @@
+{
+  "orientation": "v",
+  "leafDistance": 40,
+  "depthDistance": 60,
+
+  "body": {
+    "type": "default",
+    "padding": 30
+  },
+  "marker": {
+    "type": "circle",
+    "color": "#444",
+    "size": 8,
+    "_explicit": [ "type", "size" ]
+  },
+  "edge": {
+    "type": "bezier",
+    "color": "#aaa",
+    "width": 0.75,
+    "_explicit": [ "type" ]
+  },
+  "label": {
+    "type": "centered",
+    "fontSize": 12,
+    "color": "black",
+    "style": null,
+    "_explicit": [ "type", "fontSize" ]
+  },
+
+  "layout": {
+    "parentPos": "center",
+    "algorithm": "compact",
+    "subtreeMargin": 1.5
+  }
+}
