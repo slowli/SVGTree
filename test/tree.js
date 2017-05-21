@@ -243,7 +243,7 @@ describe('Tree', function () {
 
       var nodes = [];
       tree.walk(v => { nodes.push(v.data); });
-      expect(nodes).to.deep.equal(['c', 'b', 'a']);
+      expect(nodes).to.deep.equal(['b', 'c', 'a']);
     });
 
     it('should be able to count nodes in the tree', function () {
