@@ -335,4 +335,42 @@ describe('Tree', function () {
       expect(w).to.equal('abc');
     });
   });
+
+  describe('walkFromRoot', function () {
+    it('should enumerate all tree nodes', function () {
+      var tree = new Tree('a');
+      tree.append(new Tree('b'));
+      tree.append(new Tree('c'));
+
+      var nodes = [];
+      tree.walkFromRoot(v => { nodes.push(v.data); });
+      expect(nodes).to.contain('a').and.contain('b').and.contain('c');
+    });
+
+    it('should propagate transformed parent nodes to children', function () {
+      var tree = new Tree('a');
+      tree.append(new Tree('b'));
+      tree.append(new Tree('c'));
+
+      tree.walkFromRoot((v, parent) => {
+        if (v.data === 'a') {
+          return 'val';
+        } else {
+          expect(parent).to.equal('val');
+        }
+      });
+    });
+
+    it('should leave parent intact if it\'s not transformed', function () {
+      var tree = new Tree('a');
+      tree.append(new Tree('b'));
+      tree.append(new Tree('c'));
+
+      tree.walkFromRoot((v, parent) => {
+        if (v.data !== 'a') {
+          expect(parent).to.equal(tree);
+        }
+      });
+    });
+  });
 });
